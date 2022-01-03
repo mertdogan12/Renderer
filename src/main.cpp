@@ -4,6 +4,8 @@
 
 #include "iostream"
 
+#include "Renderer.h"
+
 int main() 
 {
     GLFWwindow *window;
@@ -35,12 +37,14 @@ int main()
 
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
+    renderer::Renderer renderer;
+
     {
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            glClear(GL_COLOR_BUFFER_BIT);
+            renderer.Clear();
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
