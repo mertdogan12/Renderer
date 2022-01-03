@@ -1,0 +1,6 @@
+clang++
+-Ivendor/stb
+-Ivendor/glm
+-Ivendor/imgui
+-Isrc
+-Ilib
