@@ -1,15 +1,22 @@
 # OpenGL Tutorial
 Learning opengl
 
-## Build
+## Build infos
+### Dependencies
 Install dependencies
 ```
 sudo apt install xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules build-essential libxmu-dev libxi-dev libgl-dev python
 ```
 
-Build the output file
+### Building
+Build the output file and install glew and glfw
 ```
 make
+```
+
+Only build the output file
+```
+make build
 ```
 
 ## Error fix
