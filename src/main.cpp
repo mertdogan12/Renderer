@@ -11,7 +11,7 @@
 int main() 
 {
     GLFWwindow *window;
-    std::unordered_map<std::string, renderer::Vertex> map;
+    std::unordered_map<std::string, renderer::VertexObject> map;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -21,8 +21,8 @@ int main()
     window = glfwCreateWindow(1920, 1080, "Renderer", NULL, NULL);
     if (!window)
     {
-    glfwTerminate();
-    return -1;
+        glfwTerminate();
+        return -1;
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -40,6 +40,12 @@ int main()
 
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
+    float coord[] = { 100.0f, 100.0f };
+    renderer::VertexObject vertexObject("test", coord, 245.0f, 253.0f, "res/textures/test.png");
+
+    map.insert({"test", vertexObject});
+
+    // Vertex Array
     unsigned int rendererID;
     GLCALL(glGenBuffers(1, &rendererID));
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
@@ -57,6 +63,7 @@ int main()
     GLCALL(glEnableVertexAttribArray(4));
     GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
 
+    // Indices
     unsigned int indicies[] =
     {
         0, 1, 2, 2, 3, 1,
