@@ -39,10 +39,10 @@ namespace renderer {
             0.0f
         };
 
-        Vertexs[0] = &v0;
-        Vertexs[1] = &v1;
-        Vertexs[2] = &v2;
-        Vertexs[2] = &v3;
+        Vertexs[0] = v0;
+        Vertexs[1] = v1;
+        Vertexs[2] = v2;
+        Vertexs[2] = v3;
     }
 
     // Binds the Texture and sets the Texture index
@@ -52,9 +52,9 @@ namespace renderer {
         VertexTexture.Bind(slot);
     }
 
-    void VertexObject::setTextureIndex(float index) const
+    void VertexObject::setTextureIndex(float index)
     {
         for (int i = 0; i < 4; i++)
-            Vertexs[i]->TextureIndex = index;
+            Vertexs[i].TextureIndex = index;
     }
 }

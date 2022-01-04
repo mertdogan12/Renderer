@@ -23,12 +23,12 @@ namespace renderer {
                     const float width, const float height, const std::string& texturePath);
 
             std::string Name;
-            Vertex* Vertexs[4];
+            Vertex Vertexs[4];
 
             Texture VertexTexture;
             void BindTexture(unsigned int slot = 0);
 
         private:
-            void setTextureIndex(float index) const;
+            void setTextureIndex(float index);
     };
 }

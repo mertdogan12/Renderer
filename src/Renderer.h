@@ -1,5 +1,9 @@
 #pragma once
 
+#include "unordered_map"
+
+#include "VertexObject.h"
+
 #define ASSERT(x) if (!(x)) __builtin_trap();
 
 // Clears all existing OpenGL error.
@@ -12,9 +16,6 @@ void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
 namespace renderer {
-    class Renderer
-    {
-        public:
-            void Clear() const;
-    };
+    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> objects);
+    void Clear();
 };
