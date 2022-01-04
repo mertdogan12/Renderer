@@ -6,6 +6,7 @@
 #include "unordered_map"
 
 #include "Renderer.h"
+#include "Shader.h"
 #include "VertexObject.h"
 
 int main() 
@@ -44,6 +45,10 @@ int main()
     renderer::VertexObject vertexObject("test", coord, 245.0f, 253.0f, "res/textures/test.png");
 
     map.insert({"test", vertexObject});
+    
+    // Shader
+    renderer::Shader shader("res/shaders/Basic.shader");
+    shader.Bind();
 
     // Vertex Array
     unsigned int rendererID;
