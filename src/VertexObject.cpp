@@ -45,6 +45,7 @@ namespace renderer {
         Vertexs[2] = &v3;
     }
 
+    // Binds the Texture and sets the Texture index
     void VertexObject::BindTexture(unsigned int slot)
     {
         setTextureIndex((float) slot);
