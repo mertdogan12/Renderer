@@ -62,6 +62,7 @@ namespace renderer {
       return location;
     }
 
+    // Reads the shader file and parses the two shaders into a ShaderProgramSource Object.
     ShaderProgramSource Shader::ParseShader(const std::string &filePath)
     {
         std::ifstream inputFile(filePath);
@@ -118,6 +119,9 @@ namespace renderer {
         return id;
     }
 
+    // Creates an Program and attachts the two given shaders to it.
+    // Delets the two shader after it.
+    // Then return the program (unsigned int, the id of the program).
     unsigned int Shader::CreateShader(const std::string &vertexShader, const std::string &fragmentShader)
     {
       unsigned int program = glCreateProgram();
