@@ -4,6 +4,7 @@
 #include "cstring"
 
 #include "Renderer.h"
+#include "Shader.h"
 
 // Just removes all GL errors
 void GLClearError()
@@ -32,17 +33,25 @@ namespace renderer {
     }
 
     // Make of all VertexObjects one array with all the vertecies.
+    // Binds the Texture to the correct spot and set the Uniform.
     // Returns then an pointer to the array and the size of the array.
     // first: Vertex poitner, second: size
-    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> objects)
+    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader)
     {
         int size = objects.size() * 4;
         Vertex vertecies[size];
 
+        int textSlot = 0;
         for (std::pair<std::string, VertexObject> obj: objects)
         {
             VertexObject object = obj.second;
+
+            // Vertecies
             std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
+
+            // Texure
+            object.BindTexture(textSlot);
+            shader.SetUniform1i("u_Texture", textSlot);
         }
 
         return { vertecies, size };
