@@ -1,9 +1,11 @@
 #define GLEW_STATIC
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
 
 #include "iostream"
 #include "unordered_map"
+#include "cstring"
 
 #include "Renderer.h"
 #include "Shader.h"
@@ -75,14 +77,21 @@ int main()
         4, 5, 6, 6, 5, 4
     };
 
-
-    renderer::Renderer renderer;
     {
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            renderer.Clear();
+            renderer::Clear();
+
+            // Vertecies
+            std::pair<renderer::Vertex*, int> obj = renderer::ParseObjects(map);
+            renderer::Vertex* vertecies = obj.first;
+            int verteciesSize = obj.second;
+
+            // MVP
+            glm::mat4 proj = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f, -1.0f, 1.0f);
+            glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
