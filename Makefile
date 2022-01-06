@@ -21,4 +21,4 @@ glew:
 
 build:
 	@echo "Building"
-	g++ -g src/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Isrc -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL
+	g++ -g src/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL
