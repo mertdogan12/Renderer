@@ -86,7 +86,7 @@ int main()
             renderer::Clear();
 
             // Vertecies
-            std::pair<renderer::Vertex*, int> obj = renderer::ParseObjects(map);
+            std::pair<renderer::Vertex*, int> obj = renderer::ParseObjects(map, shader);
             renderer::Vertex* vertecies = obj.first;
             int verteciesSize = obj.second;
 
