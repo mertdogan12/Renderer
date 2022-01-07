@@ -46,6 +46,24 @@ namespace renderer {
         {
             VertexObject object = obj.second;
 
+            // Log
+            for (int i = 0; i < 4; i++)
+            {
+                // Coords
+                for (int j = 0; j < 3; j++)
+                {
+                    std::cout << object.Vertexs[i].Coords.x << " ";
+                }
+                std::cout << " | ";
+
+                // TexCoords
+                for (int j = 0; j < 2; j++)
+                {
+                    std::cout << object.Vertexs[i].TexCoords.x << " ";
+                }
+                std::cout << std::endl;
+            }
+
             // Vertecies
             std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
 
