@@ -42,7 +42,7 @@ namespace renderer {
         Vertexs[0] = v0;
         Vertexs[1] = v1;
         Vertexs[2] = v2;
-        Vertexs[2] = v3;
+        Vertexs[3] = v3;
     }
 
     // Binds the Texture and sets the Texture index

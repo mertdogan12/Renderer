@@ -25,7 +25,10 @@ bool GLLogCall(const char* function, const char* file, int line)
     return true;
 }
 
+
 namespace renderer {
+    bool log = false;
+
     // Just runs glClear
     void Clear()
     {
@@ -47,21 +50,28 @@ namespace renderer {
             VertexObject object = obj.second;
 
             // Log
-            for (int i = 0; i < 4; i++)
+            if (!log)
             {
-                // Coords
-                for (int j = 0; j < 3; j++)
+                std::cout << "Parse Objects" << std::endl;
+                
+                for (int i = 0; i < 4; i++)
                 {
-                    std::cout << object.Vertexs[i].Coords.x << " ";
-                }
-                std::cout << " | ";
+                    // Coords
+                    for (int j = 0; j < 3; j++)
+                    {
+                        std::cout << object.Vertexs[i].Coords[j] << " ";
+                    }
+                    std::cout << " | ";
 
-                // TexCoords
-                for (int j = 0; j < 2; j++)
-                {
-                    std::cout << object.Vertexs[i].TexCoords.x << " ";
+                    // TexCoords
+                    for (int j = 0; j < 2; j++)
+                    {
+                        std::cout << object.Vertexs[i].TexCoords[j] << " ";
+                    }
+                    std::cout << std::endl;
                 }
-                std::cout << std::endl;
+                
+                log = true;
             }
 
             // Vertecies

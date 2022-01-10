@@ -99,6 +99,8 @@ int main()
             // Prints the vertecies
             if (!print)
             {
+                std::cout << std::endl << "Render Data" << std::endl;
+
                 for (int i = 0; i < verteciesSize; i++)
                 {
                     // Coords
