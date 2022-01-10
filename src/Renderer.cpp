@@ -39,10 +39,11 @@ namespace renderer {
     // Binds the Texture to the correct spot and set the Uniform.
     // Returns then an pointer to the array and the size of the array.
     // first: Vertex poitner, second: size
-    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader)
+    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader, Vertex* vertecies)
     {
-        int size = objects.size() * 4;
-        Vertex vertecies[size];
+        // int size = objects.size() * 4;
+        // Vertex vertecies[size];
+        int size = 4;
 
         int textSlot = 0;
         for (std::pair<std::string, VertexObject> obj: objects)
@@ -70,8 +71,6 @@ namespace renderer {
                     }
                     std::cout << std::endl;
                 }
-                
-                log = true;
             }
 
             // Vertecies
@@ -80,6 +79,27 @@ namespace renderer {
             // Texure
             object.BindTexture(textSlot);
             shader.SetUniform1i("u_Texture", textSlot);
+        }
+
+        // Prints the vertecies
+        if (!log)
+        {
+            std::cout << std::endl << "Render Data" << std::endl;
+
+            for (int i = 0; i < size; i++)
+            {
+                // Coords
+                for (int j = 0; j < 3; j++)
+                    std::cout << vertecies[i].Coords[j] << " ";
+                std::cout << " | ";
+
+                // TexCoords
+                for (int j = 0; j < 2; j++)
+                    std::cout << vertecies[i].TexCoords[j] << " ";
+                std::cout << std::endl;
+            }
+
+            log = true;
         }
 
         return { vertecies, size };

@@ -91,8 +91,11 @@ int main()
             /* Render here */
             renderer::Clear();
 
+            // TODO chagen this
+            renderer::Vertex vertecies2[4];
+
             // Vertecies
-            std::pair<renderer::Vertex*, int> obj = renderer::ParseObjects(map, shader);
+            std::pair<renderer::Vertex*, int> obj = renderer::ParseObjects(map, shader, vertecies2);
             renderer::Vertex* vertecies = obj.first;
             int verteciesSize = obj.second;
 
@@ -105,19 +108,28 @@ int main()
                 {
                     // Coords
                     for (int j = 0; j < 3; j++)
-                    {
-                        std::cout << vertecies[i].Coords.x << " ";
-                    }
+                        std::cout << vertecies[i].Coords[j] << " ";
                     std::cout << " | ";
 
                     // TexCoords
                     for (int j = 0; j < 2; j++)
-                    {
-                        std::cout << vertecies[i].TexCoords.x << " ";
-                    }
+                        std::cout << vertecies[i].TexCoords[j] << " ";
                     std::cout << std::endl;
                 }
+            }
 
+            // Log as flaot array
+            {
+                if (!print)
+                {
+                    float* verteciesF = (float*) vertecies;
+                    std::cout << std::endl;
+
+                    for (int i = 0; i < verteciesSize * 5; i++)
+                        std::cout << verteciesF[i] << " ";
+
+                    std::cout << std::endl;
+                }
                 print = true;
             }
 
@@ -126,13 +138,14 @@ int main()
             glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
             glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
-            glm::mat4 mvp = proj * view * model;
+            glm::mat4 mvp = proj;
             shader.SetUniformMat4f("u_MVP", mvp);
 
             // Write Buffer
             GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
             GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertecies), vertecies));
 
+            GLCALL(glDrawElements(GL_TRIANGLES, 2, GL_UNSIGNED_INT, nullptr));
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

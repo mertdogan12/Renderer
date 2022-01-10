@@ -17,6 +17,6 @@ void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
 namespace renderer {
-    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader);
+    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader, Vertex* vertecies);
     void Clear();
 };
