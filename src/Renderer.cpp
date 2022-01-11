@@ -27,8 +27,6 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 namespace renderer {
-    bool log = false;
-
     // Just runs glClear
     void Clear()
     {
@@ -50,56 +48,12 @@ namespace renderer {
         {
             VertexObject object = obj.second;
 
-            // Log
-            if (!log)
-            {
-                std::cout << "Parse Objects" << std::endl;
-                
-                for (int i = 0; i < 4; i++)
-                {
-                    // Coords
-                    for (int j = 0; j < 3; j++)
-                    {
-                        std::cout << object.Vertexs[i].Coords[j] << " ";
-                    }
-                    std::cout << " | ";
-
-                    // TexCoords
-                    for (int j = 0; j < 2; j++)
-                    {
-                        std::cout << object.Vertexs[i].TexCoords[j] << " ";
-                    }
-                    std::cout << std::endl;
-                }
-            }
-
             // Vertecies
             std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
 
             // Texure
             object.BindTexture(textSlot);
             shader.SetUniform1i("u_Texture", textSlot);
-        }
-
-        // Prints the vertecies
-        if (!log)
-        {
-            std::cout << std::endl << "Render Data" << std::endl;
-
-            for (int i = 0; i < size; i++)
-            {
-                // Coords
-                for (int j = 0; j < 3; j++)
-                    std::cout << vertecies[i].Coords[j] << " ";
-                std::cout << " | ";
-
-                // TexCoords
-                for (int j = 0; j < 2; j++)
-                    std::cout << vertecies[i].TexCoords[j] << " ";
-                std::cout << std::endl;
-            }
-
-            log = true;
         }
 
         return { vertecies, size };

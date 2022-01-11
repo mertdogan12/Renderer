@@ -9,7 +9,7 @@ namespace renderer {
     {
         Vertex v0 = 
         {
-            glm::vec3(coords[0], coords[1], 0.0f),
+            glm::vec2(coords[0], coords[1]),
             // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
             glm::vec2(0.0f, 0.0f)
             // 0.0f
@@ -17,7 +17,7 @@ namespace renderer {
 
         Vertex v1 = 
         {
-            glm::vec3(coords[0] + width, coords[1], 0.0f),
+            glm::vec2(coords[0] + width, coords[1]),
             // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
             glm::vec2(1.0f, 0.0f)
             //0.0f
@@ -25,7 +25,7 @@ namespace renderer {
 
         Vertex v2 = 
         {
-            glm::vec3(coords[0] + width, coords[1] + height, 0.0f),
+            glm::vec2(coords[0] + width, coords[1] + height),
             // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
             glm::vec2(1.0f, 1.0f)
             // 0.0f
@@ -33,7 +33,7 @@ namespace renderer {
 
         Vertex v3 = 
         {
-            glm::vec3(coords[0], coords[1] + height, 0.0f),
+            glm::vec2(coords[0], coords[1] + height),
             // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
             glm::vec2(0.0f, 1.0f)
             // 0.0f

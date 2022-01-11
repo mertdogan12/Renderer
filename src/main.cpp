@@ -57,19 +57,19 @@ int main()
     unsigned int rendererID;
     GLCALL(glGenBuffers(1, &rendererID));
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex), nullptr, GL_DYNAMIC_DRAW));
+    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 4, nullptr, GL_DYNAMIC_DRAW));
 
     // Coords
     GLCALL(glEnableVertexAttribArray(1));
-    GLCALL(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
+    GLCALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
 
     // Rgba
     // GLCALL(glEnableVertexAttribArray(2));
     // GLCALL(glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
 
     // TexCoords
-    GLCALL(glEnableVertexAttribArray(3));
-    GLCALL(glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
+    GLCALL(glEnableVertexAttribArray(2));
+    GLCALL(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TexCoords)));
 
     // TextureIndex
     // GLCALL(glEnableVertexAttribArray(4));
@@ -78,12 +78,16 @@ int main()
     // Indices
     unsigned int indicies[] =
     {
-        0, 1, 2, 2, 3, 1,
-        4, 5, 6, 6, 5, 4
+        0, 1, 2, 2, 3, 1
     };
 
+    unsigned int elementbuffer;
+    GLCALL(glGenBuffers(1, &elementbuffer));
+    GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
+    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indicies, GL_STATIC_DRAW));
+
     {
-        bool print = false;
+        bool print = true;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -91,7 +95,7 @@ int main()
             /* Render here */
             renderer::Clear();
 
-            // TODO chagen this
+            // TODO change this
             renderer::Vertex vertecies2[4];
 
             // Vertecies
@@ -100,14 +104,14 @@ int main()
             int verteciesSize = obj.second;
 
             // Prints the vertecies
-            if (!print)
+            if (print)
             {
                 std::cout << std::endl << "Render Data" << std::endl;
 
                 for (int i = 0; i < verteciesSize; i++)
                 {
                     // Coords
-                    for (int j = 0; j < 3; j++)
+                    for (int j = 0; j < 2; j++)
                         std::cout << vertecies[i].Coords[j] << " ";
                     std::cout << " | ";
 
@@ -116,21 +120,8 @@ int main()
                         std::cout << vertecies[i].TexCoords[j] << " ";
                     std::cout << std::endl;
                 }
-            }
 
-            // Log as flaot array
-            {
-                if (!print)
-                {
-                    float* verteciesF = (float*) vertecies;
-                    std::cout << std::endl;
-
-                    for (int i = 0; i < verteciesSize * 5; i++)
-                        std::cout << verteciesF[i] << " ";
-
-                    std::cout << std::endl;
-                }
-                print = true;
+                print = false;
             }
 
             // MVP
@@ -143,9 +134,9 @@ int main()
 
             // Write Buffer
             GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertecies), vertecies));
+            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * 4, vertecies));
 
-            GLCALL(glDrawElements(GL_TRIANGLES, 2, GL_UNSIGNED_INT, nullptr));
+            GLCALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0));
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
