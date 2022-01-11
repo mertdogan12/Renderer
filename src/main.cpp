@@ -78,7 +78,7 @@ int main()
     // Indices
     unsigned int indicies[] =
     {
-        0, 1, 2, 2, 3, 1
+        0, 1, 2, 2, 3, 0
     };
 
     unsigned int elementbuffer;
