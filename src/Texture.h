@@ -12,8 +12,8 @@ namespace renderer {
             int m_Width, m_Height, m_BPP;
         public:
             Texture(const std::string& path);
-            ~Texture();
 
+            void Remove();
             void Bind(unsigned int slot = 0) const;
             void Unbind() const;
 

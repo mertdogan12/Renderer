@@ -34,16 +34,16 @@ namespace renderer {
     }
 
     // Make of all VertexObjects one array with all the vertecies.
+    // Also create the indicies based on the vertecies.
     // Binds the Texture to the correct spot and set the Uniform.
-    // Returns then an pointer to the array and the size of the array.
-    // first: Vertex poitner, second: size
+    // Returns then the vertecies and the indicies.
     std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader, Vertex* vertecies)
     {
         // int size = objects.size() * 4;
         // Vertex vertecies[size];
         int size = 4;
 
-        int textSlot = 0;
+        unsigned int textSlot = 0;
         for (std::pair<std::string, VertexObject> obj: objects)
         {
             VertexObject object = obj.second;
@@ -51,7 +51,7 @@ namespace renderer {
             // Vertecies
             std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
 
-            // Texure
+            // Texture
             object.BindTexture(textSlot);
             shader.SetUniform1i("u_Texture", textSlot);
         }
