@@ -1,6 +1,8 @@
 #pragma once
 
 #include "unordered_map"
+#include "array"
+#include "memory"
 
 #include "VertexObject.h"
 #include "Shader.h"
@@ -17,6 +19,21 @@ void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
 namespace renderer {
-    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader, Vertex* vertecies);
-    void Clear();
+    struct SizeStruct
+    {
+        // First Array pointer, second size
+        int Verticies;
+        int Indices;
+    };
+
+    class Renderer 
+    {
+        public:
+            static std::unordered_map<std::string, renderer::VertexObject> map;
+            static Shader shader;
+
+            static void Clear();
+            static void ParseObjects(Vertex* vertecies, unsigned int* indicies);
+            static SizeStruct CalcCount();
+    };
 };
