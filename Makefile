@@ -1,13 +1,15 @@
-all: glfw glew build
+all: build
+
+install: glfw glew build
 
 glfw:
 	@echo "Cloneing glfw"
 	git clone https://github.com/glfw/glfw.git
 	@echo "Compiling glfw"
 	cmake -S glfw -B glfw/build
-	sudo make install -C glfw/build
+	make install -C glfw/build
 	@echo "Removeing glfw repo"
-	sudo rm -rf glfw
+	rm -rf glfw
 
 glew:
 	@echo "Cloneing glew"
@@ -15,9 +17,9 @@ glew:
 	@echo "Compiling glew"
 	make -C glew/auto
 	make -C glew
-	sudo make install -C glew
+	make install -C glew
 	@echo "Removeing glew"
-	sudo rm -rf glew
+	rm -rf glew
 
 build:
 	@echo "Building"

@@ -33,7 +33,7 @@ namespace renderer {
             int GetUniformLocation(const std::string& name);
 
             ShaderProgramSource ParseShader(const std::string &filePath);
-            unsigned int CompileShader(unsigned int type, const std::string &source);
+            unsigned int CompileShader(unsigned int type, const std::string &source) const;
             unsigned int CreateShader(const std::string &vertexShader, const std::string &fragmentShader);
     };
 }

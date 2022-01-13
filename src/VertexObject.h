@@ -10,10 +10,10 @@
 namespace renderer {
     struct Vertex 
     {
-        glm::vec3 Coords;
-        glm::vec4 Rgba;
+        glm::vec2 Coords;
+        // glm::vec4 Rgba;
         glm::vec2 TexCoords;
-        float TextureIndex;
+        // float TextureIndex;
     };
 
     class VertexObject

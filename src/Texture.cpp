@@ -2,6 +2,7 @@
 #include "Renderer.h"
 
 #include "string"
+#include "iostream"
 
 #include "stb/stb_image.h"
 #include "GL/glew.h"
@@ -22,13 +23,14 @@ namespace renderer {
         GLCALL(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
         GLCALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer));
+
         Unbind();
 
         if (m_LocalBuffer)
             stbi_image_free(m_LocalBuffer);
     }
 
-    Texture::~Texture()
+    void Texture::Remove()
     {
         GLCALL(glDeleteTextures(1, &m_RendererID));
     }

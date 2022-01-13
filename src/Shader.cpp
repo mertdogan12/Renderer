@@ -93,7 +93,7 @@ namespace renderer {
         return { ss[0].str(), ss[1].str() };
     }
 
-    unsigned int CompileShader(unsigned int type, const std::string &source)
+    unsigned int Shader::CompileShader(unsigned int type, const std::string &source) const
     {
         GLCALL(unsigned int id = glCreateShader(type));
         const char* src = source.c_str();
