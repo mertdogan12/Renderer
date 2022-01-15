@@ -33,7 +33,9 @@ namespace renderer {
 
     void Init()
     {
+        // Shader
         Renderer::shader = new Shader("res/shaders/Basic.shader");
+        renderer::Renderer::shader->Bind();
     }
 
     // Just runs glClear
@@ -41,6 +43,8 @@ namespace renderer {
     {
         GLCALL(glClear(GL_COLOR_BUFFER_BIT));
     }
+
+    bool print = true;
 
     // Also create the indicies based on the vertecies.
     // Binds the Texture to the correct spot and set the Uniform.
@@ -55,7 +59,7 @@ namespace renderer {
             VertexObject object = obj.second;
 
             // Vertecies
-            std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
+            std::memcpy(&vertecies[index * 4], object.Vertexs, sizeof(Vertex) * 4);
 
             // Indices
             unsigned int indiciesValue[6] = 
@@ -67,7 +71,7 @@ namespace renderer {
                 3 + 4 * index,
                 0 + 4 * index
             };
-            std::memcpy(indicies, indiciesValue, sizeof(unsigned int) * 6);
+            std::memcpy(&indicies[index * 6], indiciesValue, sizeof(unsigned int) * 6);
 
             // Texture
             object.BindTexture(textSlot);

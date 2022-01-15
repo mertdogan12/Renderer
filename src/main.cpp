@@ -47,18 +47,21 @@ int main()
 
     // Objects
     float coord[] = { 100.0f, 100.0f };
+    float coord2[] = { 600.0f, 100.0f };
+    float coord3[] = { 100.0f, 600.0f };
     renderer::VertexObject vertexObject("test", coord, 245.0f, 253.0f, "res/textures/test.png");
+    renderer::VertexObject vertexObject2("test2", coord2, 245.0f, 253.0f, "res/textures/test.png");
+    renderer::VertexObject vertexObject3("test3", coord3, 245.0f, 253.0f, "res/textures/test.png");
 
     renderer::Renderer::map.insert({"test", vertexObject});
-    
-    // Shader
-    renderer::Renderer::shader->Bind();
+    renderer::Renderer::map.insert({"test2", vertexObject2});
+    renderer::Renderer::map.insert({"test3", vertexObject3});
 
     // Vertex Array
     unsigned int rendererID;
     GLCALL(glGenBuffers(1, &rendererID));
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 4, nullptr, GL_DYNAMIC_DRAW));
+    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
     // Coords
     GLCALL(glEnableVertexAttribArray(1));
@@ -79,7 +82,7 @@ int main()
     unsigned int elementbuffer;
     GLCALL(glGenBuffers(1, &elementbuffer));
     GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
-    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, nullptr, GL_DYNAMIC_DRAW));
+    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
     {
         bool print = true;
@@ -115,6 +118,15 @@ int main()
                     std::cout << std::endl;
                 }
 
+                std::cout << std::endl;
+
+                for (int i = 0; i < sizes.Indices; i++)
+                {
+                    std::cout << indicies[i] << " ";
+                }
+
+                std::cout << std::endl;
+
                 print = false;
             }
 
@@ -128,13 +140,13 @@ int main()
 
             /* Write Buffer */
             GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * 4, vertecies));
+            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * sizes.Verticies, vertecies));
 
             GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
-            GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * 6, indicies));
+            GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
 
             /* Draws */
-            GLCALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0));
+            GLCALL(glDrawElements(GL_TRIANGLES, sizes.Indices * 6, GL_UNSIGNED_INT, (void*)0));
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
