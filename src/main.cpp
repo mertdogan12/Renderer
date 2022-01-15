@@ -28,8 +28,8 @@ int main()
         return -1;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Make the window's context current */
@@ -68,16 +68,16 @@ int main()
     GLCALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
 
     // Rgba
-    // GLCALL(glEnableVertexAttribArray(2));
-    // GLCALL(glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
+    GLCALL(glEnableVertexAttribArray(2));
+    GLCALL(glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Rgba)));
 
     // TexCoords
-    GLCALL(glEnableVertexAttribArray(2));
-    GLCALL(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TexCoords)));
+    GLCALL(glEnableVertexAttribArray(3));
+    GLCALL(glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TexCoords)));
 
     // TextureIndex
-    // GLCALL(glEnableVertexAttribArray(4));
-    // GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
+    GLCALL(glEnableVertexAttribArray(4));
+    GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TextureIndex)));
 
     unsigned int elementbuffer;
     GLCALL(glGenBuffers(1, &elementbuffer));
@@ -112,10 +112,18 @@ int main()
                         std::cout << vertecies[i].Coords[j] << " ";
                     std::cout << " | ";
 
+                    // Rgba
+                    for (int j = 0; j < 4; j++)
+                        std::cout << vertecies[i].Rgba[j] << " ";
+                    std::cout << " | ";
+
                     // TexCoords
                     for (int j = 0; j < 2; j++)
                         std::cout << vertecies[i].TexCoords[j] << " ";
-                    std::cout << std::endl;
+                    std::cout << " | ";
+
+                    // TextureIndex
+                    std::cout << vertecies[i].TextureIndex << std::endl;
                 }
 
                 std::cout << std::endl;

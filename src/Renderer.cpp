@@ -52,7 +52,7 @@ namespace renderer {
     // First vertecies, second indicies
     void Renderer::ParseObjects(Vertex* vertecies, unsigned int* indicies)
     {
-        unsigned int textSlot = 0;
+        int textures[3];
         unsigned int index = 0;
         for (std::pair<std::string, VertexObject> obj: map)
         {
@@ -74,11 +74,13 @@ namespace renderer {
             std::memcpy(&indicies[index * 6], indiciesValue, sizeof(unsigned int) * 6);
 
             // Texture
-            object.BindTexture(textSlot);
-            shader->SetUniform1i("u_Texture", textSlot);
+            object.BindTexture(index);
+            textures[index] = index;
 
             index++;
         }
+
+        shader->SetUniform1iv("u_Textures", textures);
     }
 
     // Claculate the count of the vertecies and the indicies
