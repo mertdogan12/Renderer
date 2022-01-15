@@ -26,11 +26,13 @@ namespace renderer {
         int Indices;
     };
 
+    void Init();
+
     class Renderer 
     {
         public:
             static std::unordered_map<std::string, renderer::VertexObject> map;
-            static Shader shader;
+            static Shader *shader;
 
             static void Clear();
             static void ParseObjects(Vertex* vertecies, unsigned int* indicies);

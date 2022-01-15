@@ -41,6 +41,8 @@ int main()
     if (err != GLEW_OK)
     std::cout << "Glew Error" << std::endl;
 
+    renderer::Init();
+
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
     // Objects
@@ -50,7 +52,7 @@ int main()
     renderer::Renderer::map.insert({"test", vertexObject});
     
     // Shader
-    renderer::Renderer::shader.Bind();
+    renderer::Renderer::shader->Bind();
 
     // Vertex Array
     unsigned int rendererID;
@@ -122,7 +124,7 @@ int main()
             glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
             glm::mat4 mvp = proj;
-            renderer::Renderer::shader.SetUniformMat4f("u_MVP", mvp);
+            renderer::Renderer::shader->SetUniformMat4f("u_MVP", mvp);
 
             /* Write Buffer */
             GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));

@@ -2,6 +2,7 @@
 #include "iostream"
 #include "unordered_map"
 #include "cstring"
+#include "memory"
 
 #include "Renderer.h"
 #include "Shader.h"
@@ -27,9 +28,13 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 namespace renderer {
-    
     std::unordered_map<std::string, renderer::VertexObject> Renderer::map;
-    Shader Renderer::shader("res/shaders/Basic.shader");
+    Shader *Renderer::shader = nullptr;
+
+    void Init()
+    {
+        Renderer::shader = new Shader("res/shaders/Basic.shader");
+    }
 
     // Just runs glClear
     void Renderer::Clear()
@@ -66,7 +71,7 @@ namespace renderer {
 
             // Texture
             object.BindTexture(textSlot);
-            shader.SetUniform1i("u_Texture", textSlot);
+            shader->SetUniform1i("u_Texture", textSlot);
 
             index++;
         }
