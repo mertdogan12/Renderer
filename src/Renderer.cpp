@@ -2,6 +2,7 @@
 #include "iostream"
 #include "unordered_map"
 #include "cstring"
+#include "memory"
 
 #include "Renderer.h"
 #include "Shader.h"
@@ -27,35 +28,59 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 namespace renderer {
+    std::unordered_map<std::string, renderer::VertexObject> Renderer::map;
+    Shader *Renderer::shader = nullptr;
+
+    void Init()
+    {
+        Renderer::shader = new Shader("res/shaders/Basic.shader");
+    }
+
     // Just runs glClear
-    void Clear()
+    void Renderer::Clear()
     {
         GLCALL(glClear(GL_COLOR_BUFFER_BIT));
     }
 
-    // Make of all VertexObjects one array with all the vertecies.
     // Also create the indicies based on the vertecies.
     // Binds the Texture to the correct spot and set the Uniform.
     // Returns then the vertecies and the indicies.
-    std::pair<Vertex*, int> ParseObjects(std::unordered_map<std::string, VertexObject> &objects, Shader &shader, Vertex* vertecies)
+    // First vertecies, second indicies
+    void Renderer::ParseObjects(Vertex* vertecies, unsigned int* indicies)
     {
-        // int size = objects.size() * 4;
-        // Vertex vertecies[size];
-        int size = 4;
-
         unsigned int textSlot = 0;
-        for (std::pair<std::string, VertexObject> obj: objects)
+        unsigned int index = 0;
+        for (std::pair<std::string, VertexObject> obj: map)
         {
             VertexObject object = obj.second;
 
             // Vertecies
             std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
 
+            // Indices
+            unsigned int indiciesValue[6] = 
+            {
+                0 + 4 * index,
+                1 + 4 * index,
+                2 + 4 * index,
+                2 + 4 * index,
+                3 + 4 * index,
+                0 + 4 * index
+            };
+            std::memcpy(indicies, indiciesValue, sizeof(unsigned int) * 6);
+
             // Texture
             object.BindTexture(textSlot);
-            shader.SetUniform1i("u_Texture", textSlot);
-        }
+            shader->SetUniform1i("u_Texture", textSlot);
 
-        return { vertecies, size };
+            index++;
+        }
+    }
+
+    // Claculate the count of the vertecies and the indicies
+    // First vertecies, Second indicies
+    SizeStruct Renderer::CalcCount()
+    {
+        return { (int) map.size() * 4, (int) map.size() * 6 };
     }
 }
