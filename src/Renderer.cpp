@@ -52,7 +52,7 @@ namespace renderer {
     // First vertecies, second indicies
     void Renderer::ParseObjects(Vertex* vertecies, unsigned int* indicies)
     {
-        int textures[3];
+        int textures[32];
         unsigned int index = 0;
         for (std::pair<std::string, VertexObject> obj: map)
         {
