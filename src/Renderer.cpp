@@ -33,7 +33,9 @@ namespace renderer {
 
     void Init()
     {
+        // Shader
         Renderer::shader = new Shader("res/shaders/Basic.shader");
+        renderer::Renderer::shader->Bind();
     }
 
     // Just runs glClear
@@ -42,20 +44,26 @@ namespace renderer {
         GLCALL(glClear(GL_COLOR_BUFFER_BIT));
     }
 
+    bool print = true;
+
     // Also create the indicies based on the vertecies.
     // Binds the Texture to the correct spot and set the Uniform.
     // Returns then the vertecies and the indicies.
     // First vertecies, second indicies
     void Renderer::ParseObjects(Vertex* vertecies, unsigned int* indicies)
     {
-        unsigned int textSlot = 0;
+        int textures[3];
         unsigned int index = 0;
         for (std::pair<std::string, VertexObject> obj: map)
         {
             VertexObject object = obj.second;
 
+            // Texture
+            object.BindTexture(index);
+            textures[index] = index;
+
             // Vertecies
-            std::memcpy(vertecies, object.Vertexs, sizeof(Vertex) * 4);
+            std::memcpy(&vertecies[index * 4], object.Vertexs, sizeof(Vertex) * 4);
 
             // Indices
             unsigned int indiciesValue[6] = 
@@ -67,14 +75,12 @@ namespace renderer {
                 3 + 4 * index,
                 0 + 4 * index
             };
-            std::memcpy(indicies, indiciesValue, sizeof(unsigned int) * 6);
-
-            // Texture
-            object.BindTexture(textSlot);
-            shader->SetUniform1i("u_Texture", textSlot);
+            std::memcpy(&indicies[index * 6], indiciesValue, sizeof(unsigned int) * 6);
 
             index++;
         }
+
+        shader->SetUniform1iv("u_Textures", textures);
     }
 
     // Claculate the count of the vertecies and the indicies

@@ -48,6 +48,12 @@ namespace renderer {
         GLCALL(glUniform1i(location, i0));
     }
 
+    void Shader::SetUniform1iv(const std::string& name, int iv0[3])
+    {
+        int location = GetUniformLocation(name);
+        GLCALL(glUniform1iv(location, 3, iv0));
+    }
+
     int Shader::GetUniformLocation(const std::string& name)
     {
       if (m_UniformLocationChache.find(name) != m_UniformLocationChache.end())  

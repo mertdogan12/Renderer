@@ -2,6 +2,8 @@
 
 #include "glm/glm.hpp"
 
+#include "iostream"
+
 namespace renderer {
     VertexObject::VertexObject(const std::string name, const float coords[2], 
             const float width, const float height, const std::string& texturePath)
@@ -10,33 +12,33 @@ namespace renderer {
         Vertex v0 = 
         {
             glm::vec2(coords[0], coords[1]),
-            // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
-            glm::vec2(0.0f, 0.0f)
-            // 0.0f
+            glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
+            glm::vec2(0.0f, 0.0f),
+            0.0f
         };
 
         Vertex v1 = 
         {
             glm::vec2(coords[0] + width, coords[1]),
-            // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
-            glm::vec2(1.0f, 0.0f)
-            //0.0f
+            glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
+            glm::vec2(1.0f, 0.0f),
+            0.0f
         };
 
         Vertex v2 = 
         {
             glm::vec2(coords[0] + width, coords[1] + height),
-            // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
-            glm::vec2(1.0f, 1.0f)
-            // 0.0f
+            glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
+            glm::vec2(1.0f, 1.0f),
+            0.0f
         };
 
         Vertex v3 = 
         {
             glm::vec2(coords[0], coords[1] + height),
-            // glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
-            glm::vec2(0.0f, 1.0f)
-            // 0.0f
+            glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
+            glm::vec2(0.0f, 1.0f),
+            0.0f
         };
 
         Vertexs[0] = v0;
@@ -54,7 +56,7 @@ namespace renderer {
 
     void VertexObject::setTextureIndex(float index)
     {
-        /*for (int i = 0; i < 4; i++)
-            Vertexs[i].TextureIndex = index; */
+        for (int i = 0; i < 4; i++)
+            Vertexs[i].TextureIndex = index;
     }
 }

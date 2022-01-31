@@ -28,8 +28,8 @@ int main()
         return -1;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Make the window's context current */
@@ -47,39 +47,42 @@ int main()
 
     // Objects
     float coord[] = { 100.0f, 100.0f };
-    renderer::VertexObject vertexObject("test", coord, 245.0f, 253.0f, "res/textures/test.png");
+    float coord2[] = { 600.0f, 100.0f };
+    float coord3[] = { 100.0f, 600.0f };
+    renderer::VertexObject vertexObject("test245x253", coord, 245.0f, 253.0f, "res/textures/test245x253.png");
+    renderer::VertexObject vertexObject2("test571x840", coord2, 571.0f, 840.0f, "res/textures/test571x840.jpg");
+    renderer::VertexObject vertexObject3("test500x500", coord3, 500.0f, 500.0f, "res/textures/test500x500.png");
 
-    renderer::Renderer::map.insert({"test", vertexObject});
-    
-    // Shader
-    renderer::Renderer::shader->Bind();
+    renderer::Renderer::map.insert({"test245x253", vertexObject});
+    renderer::Renderer::map.insert({"test571x840", vertexObject2});
+    renderer::Renderer::map.insert({"test500x500", vertexObject3});
 
     // Vertex Array
     unsigned int rendererID;
     GLCALL(glGenBuffers(1, &rendererID));
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 4, nullptr, GL_DYNAMIC_DRAW));
+    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
     // Coords
     GLCALL(glEnableVertexAttribArray(1));
     GLCALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
 
     // Rgba
-    // GLCALL(glEnableVertexAttribArray(2));
-    // GLCALL(glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
+    GLCALL(glEnableVertexAttribArray(2));
+    GLCALL(glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Rgba)));
 
     // TexCoords
-    GLCALL(glEnableVertexAttribArray(2));
-    GLCALL(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TexCoords)));
+    GLCALL(glEnableVertexAttribArray(3));
+    GLCALL(glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TexCoords)));
 
     // TextureIndex
-    // GLCALL(glEnableVertexAttribArray(4));
-    // GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
+    GLCALL(glEnableVertexAttribArray(4));
+    GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TextureIndex)));
 
     unsigned int elementbuffer;
     GLCALL(glGenBuffers(1, &elementbuffer));
     GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
-    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, nullptr, GL_DYNAMIC_DRAW));
+    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
     {
         bool print = true;
@@ -109,11 +112,28 @@ int main()
                         std::cout << vertecies[i].Coords[j] << " ";
                     std::cout << " | ";
 
+                    // Rgba
+                    for (int j = 0; j < 4; j++)
+                        std::cout << vertecies[i].Rgba[j] << " ";
+                    std::cout << " | ";
+
                     // TexCoords
                     for (int j = 0; j < 2; j++)
                         std::cout << vertecies[i].TexCoords[j] << " ";
-                    std::cout << std::endl;
+                    std::cout << " | ";
+
+                    // TextureIndex
+                    std::cout << vertecies[i].TextureIndex << std::endl;
                 }
+
+                std::cout << std::endl;
+
+                for (int i = 0; i < sizes.Indices; i++)
+                {
+                    std::cout << indicies[i] << " ";
+                }
+
+                std::cout << std::endl;
 
                 print = false;
             }
@@ -128,13 +148,13 @@ int main()
 
             /* Write Buffer */
             GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * 4, vertecies));
+            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * sizes.Verticies, vertecies));
 
             GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
-            GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * 6, indicies));
+            GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
 
             /* Draws */
-            GLCALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0));
+            GLCALL(glDrawElements(GL_TRIANGLES, sizes.Indices * 6, GL_UNSIGNED_INT, (void*)0));
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
