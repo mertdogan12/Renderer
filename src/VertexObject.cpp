@@ -6,9 +6,12 @@
 
 namespace renderer {
     VertexObject::VertexObject(const std::string name, const float coords[2], 
-            const float width, const float height, const std::string& texturePath)
+            const float scaleX, const float scaleY, const std::string& texturePath)
         : Name(name), VertexTexture(texturePath)
     {
+        const float width = scaleX * VertexTexture.GetWidth();
+        const float height = scaleY * VertexTexture.GetHeight();
+
         Vertex v0 = 
         {
             glm::vec2(coords[0], coords[1]),

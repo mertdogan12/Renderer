@@ -20,7 +20,7 @@ namespace renderer {
     {
         public:
             VertexObject(const std::string name, const float coords[2], 
-                    const float width, const float height, const std::string& texturePath);
+                    const float scaleX, const float scaleY, const std::string& texturePath);
 
             std::string Name;
             Vertex Vertexs[4];

@@ -49,9 +49,9 @@ int main()
     float coord[] = { 100.0f, 100.0f };
     float coord2[] = { 600.0f, 100.0f };
     float coord3[] = { 100.0f, 600.0f };
-    renderer::VertexObject vertexObject("test245x253", coord, 245.0f, 253.0f, "res/textures/test245x253.png");
-    renderer::VertexObject vertexObject2("test571x840", coord2, 571.0f, 840.0f, "res/textures/test571x840.jpg");
-    renderer::VertexObject vertexObject3("test500x500", coord3, 500.0f, 500.0f, "res/textures/test500x500.png");
+    renderer::VertexObject vertexObject("test245x253", coord, 1.0f, 1.0f, "res/textures/test245x253.png");
+    renderer::VertexObject vertexObject2("test571x840", coord2, 0.5f, 0.5f, "res/textures/test571x840.jpg");
+    renderer::VertexObject vertexObject3("test500x500", coord3, 1.0f, 1.0f, "res/textures/test500x500.png");
 
     renderer::Renderer::map.insert({"test245x253", vertexObject});
     renderer::Renderer::map.insert({"test571x840", vertexObject2});
@@ -85,6 +85,9 @@ int main()
     GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
     {
+        GLCALL(glEnable(GL_BLEND));
+        GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
         bool print = true;
 
         /* Loop until the user closes the window */
@@ -154,7 +157,7 @@ int main()
             GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
 
             /* Draws */
-            GLCALL(glDrawElements(GL_TRIANGLES, sizes.Indices * 6, GL_UNSIGNED_INT, (void*)0));
+            GLCALL(glDrawElements(GL_TRIANGLES, sizes.Indices * sizes.Indices, GL_UNSIGNED_INT, (void*)0));
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
