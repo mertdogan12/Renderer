@@ -58,6 +58,10 @@ namespace renderer {
         {
             VertexObject object = obj.second;
 
+            // Texture
+            object.BindTexture(index);
+            textures[index] = index;
+
             // Vertecies
             std::memcpy(&vertecies[index * 4], object.Vertexs, sizeof(Vertex) * 4);
 
@@ -72,10 +76,6 @@ namespace renderer {
                 0 + 4 * index
             };
             std::memcpy(&indicies[index * 6], indiciesValue, sizeof(unsigned int) * 6);
-
-            // Texture
-            object.BindTexture(index);
-            textures[index] = index;
 
             index++;
         }

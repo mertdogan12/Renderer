@@ -2,6 +2,8 @@
 
 #include "glm/glm.hpp"
 
+#include "iostream"
+
 namespace renderer {
     VertexObject::VertexObject(const std::string name, const float coords[2], 
             const float width, const float height, const std::string& texturePath)
