@@ -1,5 +1,4 @@
-# OpenGL Tutorial
-Learning opengl
+# Renderer
 
 ## Build infos
 ### Dependencies
