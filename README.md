@@ -9,7 +9,7 @@ sudo apt install xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols extr
 ```
 #### Arch Linux
 ```
-pacman -S python3 ...
+pacman -S python3 glu glew
 ```
 
 ### Building
