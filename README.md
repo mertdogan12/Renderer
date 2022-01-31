@@ -15,12 +15,12 @@ pacman -S python3 ...
 ### Building
 Build the output file and install glew and glfw
 ```
-make
+sudo make install
 ```
 
 Only build the output file
 ```
-make build
+make
 ```
 
 ### Error fixes
