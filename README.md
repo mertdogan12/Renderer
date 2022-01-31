@@ -3,9 +3,13 @@ Learning opengl
 
 ## Build infos
 ### Dependencies
-Install dependencies
+#### Ubuntu
 ```
 sudo apt install xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules build-essential libxmu-dev libxi-dev libgl-dev python
+```
+#### Arch Linux
+```
+pacman -S python3 ...
 ```
 
 ### Building
