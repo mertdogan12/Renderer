@@ -14,13 +14,14 @@
 
 int main() 
 {
+    /* GLFW */
     GLFWwindow *window;
 
-    /* Initialize the library */
+    // Initialize the library
     if (!glfwInit())
     return -1;
 
-    /* Create a windowed mode window and its OpenGL context */
+    // Create a windowed mode window and its OpenGL context
     window = glfwCreateWindow(1920, 1080, "Renderer", NULL, NULL);
     if (!window)
     {
@@ -28,22 +29,17 @@ int main()
         return -1;
     }
 
+    // GLFW hints
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    /* Make the window's context current */
+    // Make the window's context current
     glfwMakeContextCurrent(window);
 
     glfwSwapInterval(1);
 
-    GLenum err = glewInit();
-    if (err != GLEW_OK)
-    std::cout << "Glew Error" << std::endl;
-
     renderer::Init();
-
-    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
     // Objects
     float coord[] = { 100.0f, 100.0f };
@@ -57,51 +53,21 @@ int main()
     renderer::Renderer::map.insert({"test571x840", vertexObject2});
     renderer::Renderer::map.insert({"test500x500", vertexObject3});
 
-    // Vertex Array
-    unsigned int rendererID;
-    GLCALL(glGenBuffers(1, &rendererID));
-    GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
-    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW));
-
-    // Coords
-    GLCALL(glEnableVertexAttribArray(1));
-    GLCALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Coords)));
-
-    // Rgba
-    GLCALL(glEnableVertexAttribArray(2));
-    GLCALL(glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, Rgba)));
-
-    // TexCoords
-    GLCALL(glEnableVertexAttribArray(3));
-    GLCALL(glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TexCoords)));
-
-    // TextureIndex
-    GLCALL(glEnableVertexAttribArray(4));
-    GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TextureIndex)));
-
-    unsigned int elementbuffer;
-    GLCALL(glGenBuffers(1, &elementbuffer));
-    GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
-    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 1000, nullptr, GL_DYNAMIC_DRAW));
-
     {
-        GLCALL(glEnable(GL_BLEND));
-        GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-
         bool print = true;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            renderer::Renderer::Clear();
+            renderer::Renderer::clear();
 
             /* Parses the map into vertecies and indicies */
-            renderer::SizeStruct sizes = renderer::Renderer::CalcCount();
+            renderer::SizeStruct sizes = renderer::Renderer::calcCount();
 
             renderer::Vertex vertecies[sizes.Verticies];
             unsigned int indicies[sizes.Indices];
-            renderer::Renderer::ParseObjects(vertecies, indicies);
+            renderer::Renderer::parseObjects(vertecies, indicies);
 
             /* Prints the vertecies */
             if (print)
@@ -150,10 +116,10 @@ int main()
             renderer::Renderer::shader->SetUniformMat4f("u_MVP", mvp);
 
             /* Write Buffer */
-            GLCALL(glBindBuffer(GL_ARRAY_BUFFER, rendererID));
+            GLCALL(glBindBuffer(GL_ARRAY_BUFFER, *renderer::Renderer::vertexArray));
             GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * sizes.Verticies, vertecies));
 
-            GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer));
+            GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *renderer::Renderer::indicies));
             GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
 
             /* Draws */
