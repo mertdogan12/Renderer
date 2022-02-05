@@ -39,7 +39,14 @@ int main()
 
     glfwSwapInterval(1);
 
-    renderer::Init();
+    try 
+    {
+        renderer::Init();
+    } catch (std::exception e)
+    {
+        std::cout << e.what() << std::endl;
+        return -1;
+    }
 
     // Objects
     float coord[] = { 100.0f, 100.0f };
@@ -116,10 +123,10 @@ int main()
             renderer::Renderer::shader->SetUniformMat4f("u_MVP", mvp);
 
             /* Write Buffer */
-            GLCALL(glBindBuffer(GL_ARRAY_BUFFER, *renderer::Renderer::vertexArray));
+            GLCALL(glBindBuffer(GL_ARRAY_BUFFER, renderer::Renderer::vertexArray));
             GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * sizes.Verticies, vertecies));
 
-            GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *renderer::Renderer::indicies));
+            GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer::Renderer::indicies));
             GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
 
             /* Draws */

@@ -31,8 +31,8 @@ bool GLLogCall(const char* function, const char* file, int line)
 namespace renderer {
     std::unordered_map<std::string, renderer::VertexObject> Renderer::map;
     Shader *Renderer::shader = nullptr;
-    unsigned int *Renderer::vertexArray = nullptr;
-    unsigned int *Renderer::indicies = nullptr;
+    unsigned int Renderer::vertexArray;
+    unsigned int Renderer::indicies;
 
     void Init()
     {
@@ -44,9 +44,8 @@ namespace renderer {
         std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
         /* Vertex Array */
-        unsigned int test; 
-        GLCALL(glGenBuffers(1, Renderer::vertexArray));
-        GLCALL(glBindBuffer(GL_ARRAY_BUFFER, *Renderer::vertexArray));
+        GLCALL(glGenBuffers(1, &Renderer::vertexArray));
+        GLCALL(glBindBuffer(GL_ARRAY_BUFFER, Renderer::vertexArray));
         GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(renderer::Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
         // Coords
@@ -66,9 +65,8 @@ namespace renderer {
         GLCALL(glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(renderer::Vertex), (const void*)offsetof(renderer::Vertex, TextureIndex)));
 
         /* Indicies */
-        unsigned int test1;
-        GLCALL(glGenBuffers(1, Renderer::indicies));
-        GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *Renderer::indicies));
+        GLCALL(glGenBuffers(1, &Renderer::indicies));
+        GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Renderer::indicies));
         GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 1000, nullptr, GL_DYNAMIC_DRAW));
 
         /* Shader */

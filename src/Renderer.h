@@ -33,8 +33,8 @@ namespace renderer {
         public:
             static std::unordered_map<std::string, renderer::VertexObject> map;
             static Shader *shader;
-            static unsigned int *vertexArray; 
-            static unsigned int *indicies;
+            static unsigned int vertexArray; 
+            static unsigned int indicies;
 
             static void clear();
             static void parseObjects(Vertex* vertecies, unsigned int* indicies);
