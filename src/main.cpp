@@ -1,8 +1,6 @@
 #define GLEW_STATIC
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
 
 #include "iostream"
 #include "unordered_map"
@@ -114,23 +112,7 @@ int main()
                 print = false;
             }
 
-            /* MVP */
-            glm::mat4 proj = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f, -1.0f, 1.0f);
-            glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-
-            glm::mat4 mvp = proj;
-            renderer::Renderer::shader->SetUniformMat4f("u_MVP", mvp);
-
-            /* Write Buffer */
-            GLCALL(glBindBuffer(GL_ARRAY_BUFFER, renderer::Renderer::vertexArray));
-            GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * sizes.Verticies, vertecies));
-
-            GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer::Renderer::indicies));
-            GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
-
-            /* Draws */
-            GLCALL(glDrawElements(GL_TRIANGLES, sizes.Indices * sizes.Indices, GL_UNSIGNED_INT, (void*)0));
+            renderer::Draw(1920.0f, 1080.0f, sizes, vertecies, indicies);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

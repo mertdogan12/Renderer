@@ -1,4 +1,7 @@
 #include "GL/glew.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 #include "iostream"
 #include "unordered_map"
 #include "cstring"
@@ -76,6 +79,28 @@ namespace renderer {
         /* Blending */
         GLCALL(glEnable(GL_BLEND));
         GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    }
+
+    void Draw(const float width, const float height, 
+            const SizeStruct sizes, const Vertex *vertecies, const unsigned int *indicies) 
+    {
+        /* MVP */
+        glm::mat4 proj = glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+
+        glm::mat4 mvp = proj;
+        renderer::Renderer::shader->SetUniformMat4f("u_MVP", mvp);
+
+        /* Write Buffer */
+        GLCALL(glBindBuffer(GL_ARRAY_BUFFER, renderer::Renderer::vertexArray));
+        GLCALL(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(renderer::Vertex) * sizes.Verticies, vertecies));
+
+        GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer::Renderer::indicies));
+        GLCALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * sizes.Indices, indicies));
+
+        /* Draws */
+        GLCALL(glDrawElements(GL_TRIANGLES, sizes.Indices * sizes.Indices, GL_UNSIGNED_INT, (void*)0));
     }
 
     // Just runs glClear

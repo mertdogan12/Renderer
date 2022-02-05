@@ -27,6 +27,8 @@ namespace renderer {
     };
 
     void Init();
+    void Draw(const float width, const float height, 
+            const SizeStruct sizes, const Vertex *vertecies, const unsigned int *indicies);
 
     class Renderer 
     {
