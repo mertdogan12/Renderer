@@ -109,8 +109,6 @@ namespace renderer {
         GLCALL(glClear(GL_COLOR_BUFFER_BIT));
     }
 
-    bool print = true;
-
     // Also create the indicies based on the vertecies.
     // Binds the Texture to the correct spot and set the Uniform.
     // Returns then the vertecies and the indicies.
@@ -145,7 +143,7 @@ namespace renderer {
             index++;
         }
 
-        shader->SetUniform1iv("u_Textures", textures);
+        shader->SetUniform1iv("u_Textures", textures, map.size());
     }
 
     // Claculate the count of the vertecies and the indicies

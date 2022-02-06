@@ -56,7 +56,6 @@ int main()
 
     renderer::Renderer::map.insert({"test245x253", vertexObject});
     renderer::Renderer::map.insert({"test571x840", vertexObject2});
-    renderer::Renderer::map.insert({"test500x500", vertexObject3});
 
     {
         bool print = true;
