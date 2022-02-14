@@ -5,6 +5,7 @@
 #include "iostream"
 #include "unordered_map"
 #include "cstring"
+#include "memory"
 
 #include "Renderer.h"
 #include "Shader.h"
@@ -54,8 +55,12 @@ int main()
     renderer::VertexObject vertexObject2("test571x840", coord2, 0.5f, 0.5f, "res/textures/test571x840.jpg");
     renderer::VertexObject vertexObject3("test500x500", coord3, 1.0f, 1.0f, "res/textures/test500x500.png");
 
-    renderer::Renderer::map.insert({"test245x253", vertexObject});
-    renderer::Renderer::map.insert({"test571x840", vertexObject2});
+    // vertexObject2.ChangeCoords();
+
+    renderer::Renderer::map.insert({"test245x253", &vertexObject});
+    renderer::Renderer::map.insert({"test571x840", &vertexObject2});
+
+    renderer::Renderer::map["test571x840"]->ChangeCoords();
 
     {
         bool print = true;

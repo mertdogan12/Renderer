@@ -6,6 +6,7 @@
 
 #include "VertexObject.h"
 #include "Shader.h"
+#include "memory"
 
 #define ASSERT(x) if (!(x)) __builtin_trap();
 
@@ -33,7 +34,7 @@ namespace renderer {
     class Renderer 
     {
         public:
-            static std::unordered_map<std::string, renderer::VertexObject> map;
+            static std::unordered_map<std::string, renderer::VertexObject*> map;
             static Shader *shader;
             static unsigned int vertexArray; 
             static unsigned int indicies;

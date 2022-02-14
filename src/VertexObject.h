@@ -27,8 +27,11 @@ namespace renderer {
 
             Texture VertexTexture;
             void BindTexture(unsigned int slot = 0);
+            void ChangeCoords(const float x = posX, const float y = posY, const float scaleX = posScaleX, const float scaleY = posScaleY);
 
         private:
             void setTextureIndex(float index);
+            static float posX, posY;
+            static float posScaleX, posScaleY;
     };
 }
