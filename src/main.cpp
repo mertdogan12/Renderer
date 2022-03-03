@@ -47,15 +47,16 @@ int main()
         return -1;
     }
 
+
     // Objects
     float coord[] = { 100.0f, 100.0f };
     float coord2[] = { 600.0f, 100.0f };
     float coord3[] = { 100.0f, 600.0f };
     renderer::VertexObject vertexObject("test245x253", coord, 1.0f, 1.0f, "res/textures/test245x253.png");
     renderer::VertexObject vertexObject2("test571x840", coord2, 0.5f, 0.5f, "res/textures/test571x840.jpg");
-    renderer::VertexObject vertexObject3("test500x500", coord3, 1.0f, 1.0f, "res/textures/test500x500.png");
+    // renderer::VertexObject vertexObject3("test500x500", coord3, 1.0f, 1.0f, "res/textures/test500x500.png");
 
-    // vertexObject2.ChangeCoords();
+    vertexObject2.ChangeCoords();
 
     renderer::Renderer::map.insert({"test245x253", &vertexObject});
     renderer::Renderer::map.insert({"test571x840", &vertexObject2});
