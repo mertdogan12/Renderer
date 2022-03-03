@@ -49,12 +49,12 @@ int main()
 
 
     // Objects
-    float coord[] = { 100.0f, 100.0f };
+    float coord[] = { 0.0f, 100.0f };
     float coord2[] = { 600.0f, 100.0f };
     float coord3[] = { 100.0f, 600.0f };
     renderer::VertexObject vertexObject("test245x253", coord, 1.0f, 1.0f, "res/textures/test245x253.png");
     renderer::VertexObject vertexObject2("test571x840", coord2, 0.5f, 0.5f, "res/textures/test571x840.jpg");
-    // renderer::VertexObject vertexObject3("test500x500", coord3, 1.0f, 1.0f, "res/textures/test500x500.png");
+    renderer::VertexObject vertexObject3("test500x500", coord3, 1.0f, 1.0f, "res/textures/test500x500.png");
 
     vertexObject2.ChangeCoords();
 
@@ -65,6 +65,7 @@ int main()
 
     {
         bool print = true;
+        float x = 0.0f;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -116,6 +117,15 @@ int main()
 
                 print = false;
             }
+
+
+            renderer::Renderer::map["test245x253"]->ChangeCoords(x);
+            renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x);
+
+            x += 1.0f;
+
+            if (x > 1080)
+                x = 0.0f;
 
             renderer::Draw(1920.0f, 1080.0f, sizes, vertecies, indicies);
 

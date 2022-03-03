@@ -5,6 +5,8 @@
 #include "iostream"
 
 namespace renderer {
+    const float VertexObject::DEFAULT = -1;
+
     // Object with the with all his Vertecis and the corresponding Texture object
     // vec2 Coordinates
     // vec4 Color
@@ -64,16 +66,16 @@ namespace renderer {
     // Also every variable is optional.
     void VertexObject::ChangeCoords(float x, float y, float scaleX, float scaleY)
     {
-        std::cout << posX << " | " << posY << std::endl;
-        std::cout << scaleX << " | " << scaleY << std::endl;
-
         // Looks if the variables are defined (not -1). 
         // If not it defined them with the previouse value. 
         // Then it update the positon of the Object. 
-        x = (x != -1.0f) ? x : posX;
-        y = (y != -1.0f) ? y : posY;
-        scaleX = (scaleX != -1.0f) ? scaleX : posScaleX;
-        scaleY = (scaleY != -1.0f) ? scaleY : posScaleY;
+        x = (x != DEFAULT) ? x : posX;
+        y = (y != DEFAULT) ? y : posY;
+        scaleX = (scaleX != DEFAULT) ? scaleX : posScaleX;
+        scaleY = (scaleY != DEFAULT) ? scaleY : posScaleY;
+
+        // std::cout << posX << " | " << posY << std::endl;
+        // std::cout << scaleX << " | " << scaleY << std::endl;
 
         const float width = scaleX * VertexTexture.GetWidth();
         const float height = scaleY * VertexTexture.GetHeight();

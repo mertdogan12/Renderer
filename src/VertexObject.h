@@ -25,6 +25,8 @@ namespace renderer {
             std::string Name;
             Vertex Vertexs[4];
 
+            static const float DEFAULT;
+
             Texture VertexTexture;
             void BindTexture(unsigned int slot = 0);
             void ChangeCoords(float x = -1.0f, float y = -1.0f, 
