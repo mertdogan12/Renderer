@@ -65,7 +65,7 @@ int main()
 
     {
         bool print = true;
-        float x = 0.0f;
+        float x = 0.0f, scale = 0.0f;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -120,12 +120,16 @@ int main()
 
 
             renderer::Renderer::map["test245x253"]->ChangeCoords(x);
-            renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x);
+            renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
 
             x += 1.0f;
+            scale += 0.1f;
 
             if (x > 1080)
+            {
                 x = 0.0f;
+                scale = 0.0f;
+            }
 
             renderer::Draw(1920.0f, 1080.0f, sizes, vertecies, indicies);
 
