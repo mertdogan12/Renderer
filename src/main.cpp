@@ -138,6 +138,11 @@ int main()
 
             /* Poll for and process events */
             glfwPollEvents();
+
+            float pixels[60][60];
+            GLCALL(glReadPixels(0, 0, 50, 50, GL_RGBA, GL_FLOAT, &pixels));
+
+            std::cout << pixels[0][0] << std::endl;
         }
     }
 
