@@ -6,6 +6,8 @@
 #include "unordered_map"
 #include "cstring"
 #include "memory"
+#include "chrono"
+#include "thread"
 
 #include "Renderer.h"
 #include "Shader.h"
@@ -15,13 +17,14 @@ int main()
 {
     /* GLFW */
     GLFWwindow *window;
+    unsigned int width = 1920, height = 1080;
 
     // Initialize the library
     if (!glfwInit())
     return -1;
 
     // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(1920, 1080, "Renderer", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Renderer", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -123,7 +126,7 @@ int main()
             renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
 
             x += 1.0f;
-            scale += 0.1f;
+            scale += 0.001f;
 
             if (x > 1080)
             {
@@ -139,10 +142,31 @@ int main()
             /* Poll for and process events */
             glfwPollEvents();
 
-            float pixels[60][60];
-            GLCALL(glReadPixels(0, 0, 50, 50, GL_RGBA, GL_FLOAT, &pixels));
+            // GLfloat pixels[width * height * 4];
+            GLfloat *pixels = new GLfloat[width * height * 4];
+            GLCALL(glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, pixels));
 
-            std::cout << pixels[0][0] << std::endl;
+            // int j = 0;
+            // system("clear");
+            // for (int i = 0; i < height * width * 4; i++)
+            // {
+            //     if (j == 10)
+            //     {
+            //         std::cout << pixels[i];
+            //         j = 0;
+            //     }
+            //
+            //     if (height % i == 0)
+            //     {
+            //         std::cout << std::endl;
+            //         j = 0;
+            //     }
+            //
+            //     j++;
+            // }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            free(pixels);
         }
     }
 
