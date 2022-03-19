@@ -144,26 +144,33 @@ int main()
 
             // GLfloat pixels[width * height * 4];
             GLfloat *pixels = new GLfloat[width * height * 4];
-            GLCALL(glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, pixels));
+            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGBA, GL_FLOAT, pixels));
 
-            // int j = 0;
-            // system("clear");
-            // for (int i = 0; i < height * width * 4; i++)
-            // {
-            //     if (j == 10)
-            //     {
-            //         std::cout << pixels[i];
-            //         j = 0;
-            //     }
-            //
-            //     if (height % i == 0)
-            //     {
-            //         std::cout << std::endl;
-            //         j = 0;
-            //     }
-            //
-            //     j++;
-            // }
+            system("clear");
+
+            int x = 0, y = 0;
+            for (unsigned int i = 0; i < width * height * 4; i += 4)
+            {
+                if (y != 18 * width)
+                {
+                    y++;
+                    continue;
+                }
+
+                if (x % 10 == 0)
+                {
+                    std::cout << ((pixels[i] > 0) ? 1 : 0);
+                }
+
+                if (x == width)
+                {
+                    std::cout << std::endl;
+                    y = 0;
+                    x = 0;
+                }
+
+                x++;
+            }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
             free(pixels);
