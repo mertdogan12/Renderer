@@ -50,6 +50,13 @@ int main()
         return -1;
     }
 
+    // FFMPEG
+    FILE *ffmpeg = popen("/usr/bin/ffmpeg -vcodec rawvideo -f rawvideo -pix_fmt rgb24 -s 1920x1080 -i pipe:0 -vf vflip -vcodec h264 -r 60 out.avi", "w");
+    if (!ffmpeg)
+    {
+        std::cout << "main.cpp:3 ffmpeg command failed";
+        return 0;
+    }
 
     // Objects
     float coord[] = { 0.0f, 100.0f };
@@ -146,33 +153,9 @@ int main()
             GLfloat *pixels = new GLfloat[width * height * 4];
             GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGBA, GL_FLOAT, pixels));
 
-            system("clear");
+            // FFMPEG write
+            fwrite(pixels, sizeof(pixels), 1, ffmpeg);
 
-            int x = 0, y = 0;
-            for (unsigned int i = 0; i < width * height * 4; i += 4)
-            {
-                if (y != 18 * width)
-                {
-                    y++;
-                    continue;
-                }
-
-                if (x % 10 == 0)
-                {
-                    std::cout << ((pixels[i] > 0) ? 1 : 0);
-                }
-
-                if (x == width)
-                {
-                    std::cout << std::endl;
-                    y = 0;
-                    x = 0;
-                }
-
-                x++;
-            }
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(20));
             free(pixels);
         }
     }
