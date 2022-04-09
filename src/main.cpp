@@ -12,6 +12,7 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "VertexObject.h"
+#include "Encoder.h"
 
 int main() 
 {
@@ -50,13 +51,8 @@ int main()
         return -1;
     }
 
-    // FFMPEG
-    FILE *ffmpeg = popen("ffmpeg -vcodec rawvideo -f rawvideo -pix_fmt rgb24 -s 1920x1080 -i pipe:0 -vf vflip -vcodec h264 -r 60 out.avi", "w");
-    if (!ffmpeg)
-    {
-        std::cout << "main.cpp:3 ffmpeg command failed";
-        return 0;
-    }
+    // Encoder
+    renderer::Encoder encoder("out.mp4", width, height);
 
     // Objects
     float coord[] = { 0.0f, 100.0f };
@@ -155,8 +151,8 @@ int main()
             GLbyte *pixels = new GLbyte[pixelsSize];
             GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
 
-            // FFMPEG write
-            fwrite(pixels, pixelsSize, 1, ffmpeg);
+            // Encoder write
+            encoder.Write(pixels, pixelsSize);
 
             free(pixels);
             count++;
