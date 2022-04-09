@@ -51,7 +51,7 @@ int main()
     }
 
     // FFMPEG
-    FILE *ffmpeg = popen("/usr/bin/ffmpeg -vcodec rawvideo -f rawvideo -pix_fmt rgb24 -s 1920x1080 -i pipe:0 -vf vflip -vcodec h264 -r 60 out.avi", "w");
+    FILE *ffmpeg = popen("ffmpeg -vcodec rawvideo -f rawvideo -pix_fmt rgb24 -s 1920x1080 -i pipe:0 -vf vflip -vcodec h264 -r 60 out.avi", "w");
     if (!ffmpeg)
     {
         std::cout << "main.cpp:3 ffmpeg command failed";
@@ -76,6 +76,7 @@ int main()
     {
         bool print = true;
         float x = 0.0f, scale = 0.0f;
+        int count = 0;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -150,13 +151,15 @@ int main()
             glfwPollEvents();
 
             // GLfloat pixels[width * height * 4];
-            GLfloat *pixels = new GLfloat[width * height * 4];
-            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGBA, GL_FLOAT, pixels));
+            int pixelsSize = width * height * 3; 
+            GLbyte *pixels = new GLbyte[pixelsSize];
+            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
 
             // FFMPEG write
-            fwrite(pixels, sizeof(pixels), 1, ffmpeg);
+            fwrite(pixels, pixelsSize, 1, ffmpeg);
 
             free(pixels);
+            count++;
         }
     }
 
