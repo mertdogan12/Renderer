@@ -6,22 +6,26 @@
 #include "unordered_map"
 #include "cstring"
 #include "memory"
+#include "chrono"
+#include "thread"
 
 #include "Renderer.h"
 #include "Shader.h"
 #include "VertexObject.h"
+#include "Encoder.h"
 
 int main() 
 {
     /* GLFW */
     GLFWwindow *window;
+    unsigned int width = 1920, height = 1080;
 
     // Initialize the library
     if (!glfwInit())
     return -1;
 
     // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(1920, 1080, "Renderer", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Renderer", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -47,6 +51,8 @@ int main()
         return -1;
     }
 
+    // Encoder
+    renderer::Encoder encoder("out.mp4", width, height);
 
     // Objects
     float coord[] = { 0.0f, 100.0f };
@@ -66,6 +72,7 @@ int main()
     {
         bool print = true;
         float x = 0.0f, scale = 0.0f;
+        int count = 0;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -123,7 +130,7 @@ int main()
             renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
 
             x += 1.0f;
-            scale += 0.1f;
+            scale += 0.001f;
 
             if (x > 1080)
             {
@@ -138,6 +145,17 @@ int main()
 
             /* Poll for and process events */
             glfwPollEvents();
+
+            // GLfloat pixels[width * height * 4];
+            int pixelsSize = width * height * 3; 
+            GLbyte *pixels = new GLbyte[pixelsSize];
+            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
+
+            // Encoder write
+            encoder.Write(pixels, pixelsSize);
+
+            free(pixels);
+            count++;
         }
     }
 
