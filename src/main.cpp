@@ -72,7 +72,6 @@ int main()
     {
         bool print = true;
         float x = 0.0f, scale = 0.0f;
-        int count = 0;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -155,7 +154,6 @@ int main()
             encoder.Write(pixels, pixelsSize);
 
             free(pixels);
-            count++;
         }
     }
 
