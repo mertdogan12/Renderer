@@ -5,6 +5,7 @@
 #include "iostream"
 #include "unordered_map"
 #include "cstring"
+#include "string"
 #include "memory"
 #include "chrono"
 #include "thread"
@@ -14,11 +15,66 @@
 #include "VertexObject.h"
 #include "Encoder.h"
 
+// Copies the given slice (start - end) to the buffer (buff[]).
+// Returns the buffer (buff[])
+template <typename T>
+T* sliceArray(T inp[], T buff[], int start, int end)
+{
+    int len = end - start;
+
+    for (int i = 0; i <= len; i++)
+    {
+        buff[i] = inp[start + i];
+    }
+
+    return buff;
+}
+
+// Converts the fist 4 chars from the given arr. to an float.
+// Returns the float.
+float charsToFloat(char* inp)
+{
+    float out = 0;
+    std::memcpy(inp, &out, 4);
+
+    return out;
+}
+
+void parseTextures(const char* inp, const int start)
+{
+    char buff[4];
+    int offset = start;
+
+    char id = inp[offset];
+    offset++;
+
+    float x = charsToFloat(sliceArray<char>((char*) inp, buff, offset, offset + 4));
+    float y = charsToFloat(sliceArray<char>((char*) inp, buff, offset + 4, offset + 4 * 2));
+    float scaleX = charsToFloat(sliceArray<char>((char*) inp, buff, offset + 4 * 2, offset + 4 * 3));
+    float scaleY = charsToFloat(sliceArray<char>((char*) inp, buff, offset + 4 * 3, offset + 4 * 4));
+    offset += 4 * 4 + 1;
+
+    char pathLen = inp[offset];
+    char pathBuff[pathLen];
+    std::string path(sliceArray<char>((char*) inp, pathBuff, offset + 1, offset + 1 + pathLen));
+
+    // static renderer::VertexObject obj(x, y, scaleX, scaleY, path);
+    // renderer::Renderer::map.insert({id, &obj});
+}
+
 int main() 
 {
+    for (std::string line; std::getline(std::cin, line);)
+    {
+        const char* inp = line.c_str();
+        parseTextures(inp, 0);;
+    }
+
+    return -1;
+
     /* GLFW */
     GLFWwindow *window;
-    unsigned int width = 1920, height = 1080;
+    const unsigned int width = 1920, height = 1080;
 
     // Initialize the library
     if (!glfwInit())
@@ -54,18 +110,6 @@ int main()
     // Encoder
     renderer::Encoder encoder("out.mp4", width, height);
 
-    // Objects
-    renderer::VertexObject vertexObject("test245x253", 0.0f, 100.0f, 1.0f, 1.0f, "res/textures/test245x253.png");
-    renderer::VertexObject vertexObject2("test571x840", 600.0f, 100.0f, 0.5f, 0.5f, "res/textures/test571x840.jpg");
-    renderer::VertexObject vertexObject3("test500x500", 100.0f, 600.0f, 1.0f, 1.0f, "res/textures/test500x500.png");
-
-    vertexObject2.ChangeCoords();
-
-    renderer::Renderer::map.insert({"test245x253", &vertexObject});
-    renderer::Renderer::map.insert({"test571x840", &vertexObject2});
-
-    renderer::Renderer::map["test571x840"]->ChangeCoords();
-
     {
         bool print = true;
         float x = 0.0f, scale = 0.0f;
@@ -84,8 +128,8 @@ int main()
             renderer::Renderer::parseObjects(vertecies, indicies);
 
             /* ChangeCoords */
-            renderer::Renderer::map["test245x253"]->ChangeCoords(x);
-            renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
+            renderer::Renderer::map[0]->ChangeCoords(x);
+            renderer::Renderer::map[1]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
 
             x += 1.0f;
             scale += 0.001f;

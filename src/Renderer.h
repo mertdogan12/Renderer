@@ -34,7 +34,7 @@ namespace renderer {
     class Renderer 
     {
         public:
-            static std::unordered_map<std::string, renderer::VertexObject*> map;
+            static std::unordered_map<char, renderer::VertexObject*> map;
             static Shader *shader;
             static unsigned int vertexArray; 
             static unsigned int indicies;

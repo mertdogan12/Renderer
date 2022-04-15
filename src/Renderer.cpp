@@ -32,7 +32,7 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 namespace renderer {
-    std::unordered_map<std::string, renderer::VertexObject*> Renderer::map;
+    std::unordered_map<char, renderer::VertexObject*> Renderer::map;
     Shader *Renderer::shader = nullptr;
     unsigned int Renderer::vertexArray;
     unsigned int Renderer::indicies;
@@ -117,7 +117,7 @@ namespace renderer {
     {
         int textures[32];
         unsigned int index = 0;
-        for (std::pair<std::string, VertexObject*> obj: map)
+        for (std::pair<char, VertexObject*> obj: map)
         {
             VertexObject* object = obj.second;
 

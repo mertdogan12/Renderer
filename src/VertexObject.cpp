@@ -12,10 +12,9 @@ namespace renderer {
     // vec4 Color
     // vec2 Texture Coordinates
     // float Texture Index
-    VertexObject::VertexObject(const std::string name, const float x, const float y,
+    VertexObject::VertexObject(const float x, const float y,
             const float scaleX, const float scaleY, const std::string& texturePath)
-        : Name(name), 
-          VertexTexture(texturePath), 
+        : VertexTexture(texturePath), 
           posX(x), 
           posY(y), 
           posScaleX(scaleX),

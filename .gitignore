@@ -9,6 +9,7 @@
 *.obj
 *.avi
 *.mp4
+vgcore.*
 
 # Precompiled Headers
 *.gch
