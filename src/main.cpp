@@ -83,45 +83,7 @@ int main()
             unsigned int indicies[sizes.Indices];
             renderer::Renderer::parseObjects(vertecies, indicies);
 
-            /* Prints the vertecies */
-            if (print)
-            {
-                std::cout << std::endl << "Render Data" << std::endl;
-
-                for (int i = 0; i < sizes.Verticies; i++)
-                {
-                    // Coords
-                    for (int j = 0; j < 2; j++)
-                        std::cout << vertecies[i].Coords[j] << " ";
-                    std::cout << " | ";
-
-                    // Rgba
-                    for (int j = 0; j < 4; j++)
-                        std::cout << vertecies[i].Rgba[j] << " ";
-                    std::cout << " | ";
-
-                    // TexCoords
-                    for (int j = 0; j < 2; j++)
-                        std::cout << vertecies[i].TexCoords[j] << " ";
-                    std::cout << " | ";
-
-                    // TextureIndex
-                    std::cout << vertecies[i].TextureIndex << std::endl;
-                }
-
-                std::cout << std::endl;
-
-                for (int i = 0; i < sizes.Indices; i++)
-                {
-                    std::cout << indicies[i] << " ";
-                }
-
-                std::cout << std::endl;
-
-                print = false;
-            }
-
-
+            /* ChangeCoords */
             renderer::Renderer::map["test245x253"]->ChangeCoords(x);
             renderer::Renderer::map["test571x840"]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
 
@@ -142,12 +104,11 @@ int main()
             /* Poll for and process events */
             glfwPollEvents();
 
-            // GLfloat pixels[width * height * 4];
+            /* Pixels to video */
             int pixelsSize = width * height * 3; 
             GLbyte *pixels = new GLbyte[pixelsSize];
             GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
 
-            // Encoder write
             encoder.Write(pixels, pixelsSize);
 
             free(pixels);
