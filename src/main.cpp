@@ -3,6 +3,7 @@
 #include "GLFW/glfw3.h"
 
 #include "iostream"
+#include "fstream"
 #include "unordered_map"
 #include "cstring"
 #include "string"
@@ -15,14 +16,17 @@
 #include "VertexObject.h"
 #include "Encoder.h"
 
+// TODO remove when not longern needed
+#define hex(x) " " << std::hex << (unsigned int) (unsigned char) x
+
 // Copies the given slice (start - end) to the buffer (buff[]).
 // Returns the buffer (buff[])
 template <typename T>
-T* sliceArray(T inp[], T buff[], int start, int end)
+T* sliceArray(const T inp[], T buff[], int start, int end)
 {
     int len = end - start;
 
-    for (int i = 0; i <= len; i++)
+    for (int i = 0; i < len; i++)
     {
         buff[i] = inp[start + i];
     }
@@ -34,12 +38,14 @@ T* sliceArray(T inp[], T buff[], int start, int end)
 // Returns the float.
 float charsToFloat(char* inp)
 {
-    float out = 0;
-    std::memcpy(inp, &out, 4);
+    float out;
+    std::memcpy(&out, inp, 4);
 
     return out;
 }
 
+// Parses the Textures from the inp.
+// Then creates the parsed textures
 void parseTextures(const char* inp, const int start)
 {
     char buff[4];
@@ -48,23 +54,28 @@ void parseTextures(const char* inp, const int start)
     char id = inp[offset];
     offset++;
 
-    float x = charsToFloat(sliceArray<char>((char*) inp, buff, offset, offset + 4));
-    float y = charsToFloat(sliceArray<char>((char*) inp, buff, offset + 4, offset + 4 * 2));
-    float scaleX = charsToFloat(sliceArray<char>((char*) inp, buff, offset + 4 * 2, offset + 4 * 3));
-    float scaleY = charsToFloat(sliceArray<char>((char*) inp, buff, offset + 4 * 3, offset + 4 * 4));
-    offset += 4 * 4 + 1;
+    float x = charsToFloat(sliceArray<char>(inp, buff, offset, offset + 4));
+    float y = charsToFloat(sliceArray<char>(inp, buff, offset + 4, offset + 4 * 2));
+    float scaleX = charsToFloat(sliceArray<char>(inp, buff, offset + 4 * 2, offset + 4 * 3));
+    float scaleY = charsToFloat(sliceArray<char>(inp, buff, offset + 4 * 3, offset + 4 * 4));
+    offset += 4 * 4;
 
     char pathLen = inp[offset];
     char pathBuff[pathLen];
-    std::string path(sliceArray<char>((char*) inp, pathBuff, offset + 1, offset + 1 + pathLen));
+    static char* path = sliceArray<char>(inp, pathBuff, offset, offset + pathLen);
+    std::string pathStr(path);
 
-    // static renderer::VertexObject obj(x, y, scaleX, scaleY, path);
+    std::cout << path << std::endl;
+
+    // renderer::VertexObject obj(x, y, scaleX, scaleY, path);
     // renderer::Renderer::map.insert({id, &obj});
 }
 
 int main() 
 {
-    for (std::string line; std::getline(std::cin, line);)
+    std::ifstream sampleFile("sample");
+
+    for (std::string line; std::getline(sampleFile, line);)
     {
         const char* inp = line.c_str();
         parseTextures(inp, 0);;
