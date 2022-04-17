@@ -61,15 +61,6 @@ void parseTextures(std::string &inp, const int start)
 
 int main() 
 {
-    std::ifstream sampleFile("sample");
-
-    for (std::string line; std::getline(sampleFile, line);)
-    {
-        parseTextures(line, 0);;
-    }
-
-    return -1;
-
     /* GLFW */
     GLFWwindow *window;
     const unsigned int width = 1920, height = 1080;
@@ -105,6 +96,19 @@ int main()
         return -1;
     }
 
+    // Parse Data
+    try
+    {
+        for (std::string line; std::getline(std::cin, line);)
+        {
+            parseTextures(line, 0);;
+        }
+    } catch(std::runtime_error& e)
+    {
+        std::cout << e.what() << std::endl;
+        return -1;
+    }
+
     // Encoder
     renderer::Encoder encoder("out.mp4", width, height);
 
@@ -126,8 +130,9 @@ int main()
             renderer::Renderer::parseObjects(vertecies, indicies);
 
             /* ChangeCoords */
-            renderer::Renderer::map[0]->ChangeCoords(x);
-            renderer::Renderer::map[1]->ChangeCoords(renderer::VertexObject::DEFAULT, x, scale, scale);
+            renderer::Renderer::map[0x00]->ChangeCoords(x);
+            // renderer::Renderer::map[0x01]->ChangeCoords(renderer::VertexObject::DEFAULT, renderer::VertexObject::DEFAULT, 
+            //         scale, scale);
 
             x += 1.0f;
             scale += 0.001f;

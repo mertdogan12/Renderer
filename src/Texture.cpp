@@ -3,6 +3,8 @@
 
 #include "string"
 #include "iostream"
+#include "filesystem"
+#include "error.h"
 
 #include "stb/stb_image.h"
 #include "GL/glew.h"
@@ -11,10 +13,17 @@ namespace renderer {
     Texture::Texture(const std::string& path)
         : m_RendererID(0), m_FilePath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
     {
+        // Check if file exists
+        if (!std::filesystem::exists(std::filesystem::path(m_FilePath)))
+            throw std::runtime_error("Texture does not exist: " + m_FilePath);
+
+
+        // Create Texture
         stbi_set_flip_vertically_on_load(1);
         m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4);
         
         GLCALL(glGenTextures(1, &m_RendererID));
+        Bind();
 
         GLCALL(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
         GLCALL(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
