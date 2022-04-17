@@ -36,7 +36,7 @@ T* sliceArray(const T inp[], T buff[], int start, int end)
 
 // Converts the fist 4 chars from the given arr. to an float.
 // Returns the float.
-float charsToFloat(char* inp)
+float charsToFloat(const char* inp)
 {
     float out;
     std::memcpy(&out, inp, 4);
@@ -46,24 +46,21 @@ float charsToFloat(char* inp)
 
 // Parses the Textures from the inp.
 // Then creates the parsed textures
-void parseTextures(const char* inp, const int start)
+void parseTextures(std::string inp, const int start)
 {
-    char buff[4];
     int offset = start;
 
     char id = inp[offset];
     offset++;
 
-    float x = charsToFloat(sliceArray<char>(inp, buff, offset, offset + 4));
-    float y = charsToFloat(sliceArray<char>(inp, buff, offset + 4, offset + 4 * 2));
-    float scaleX = charsToFloat(sliceArray<char>(inp, buff, offset + 4 * 2, offset + 4 * 3));
-    float scaleY = charsToFloat(sliceArray<char>(inp, buff, offset + 4 * 3, offset + 4 * 4));
+    float x = charsToFloat(inp.substr(offset, offset + 4).c_str());
+    float y = charsToFloat(inp.substr(offset + 4, offset + 4 * 2).c_str());
+    float scaleX = charsToFloat(inp.substr(offset + 4, offset + 4 * 2).c_str());
+    float scaleY = charsToFloat(inp.substr(offset + 4, offset + 4 * 2).c_str());
     offset += 4 * 4;
 
     char pathLen = inp[offset];
-    char pathBuff[pathLen];
-    static char* path = sliceArray<char>(inp, pathBuff, offset, offset + pathLen);
-    std::string pathStr(path);
+    std::string path = inp.substr(offset + 1, offset + 1 + pathLen);
 
     std::cout << path << std::endl;
 
@@ -77,8 +74,7 @@ int main()
 
     for (std::string line; std::getline(sampleFile, line);)
     {
-        const char* inp = line.c_str();
-        parseTextures(inp, 0);;
+        parseTextures(line, 0);;
     }
 
     return -1;
