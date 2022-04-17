@@ -29,4 +29,4 @@ log:
 	@echo "Building with logging"
 	rm -f log.txt
 	touch log.txt
-	g++ -g src/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL &> log.txt
+	g++ -g -std=c++20 src/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL &> log.txt
