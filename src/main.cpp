@@ -19,21 +19,6 @@
 // TODO remove when not longern needed
 #define hex(x) " " << std::hex << (unsigned int) (unsigned char) x
 
-// Copies the given slice (start - end) to the buffer (buff[]).
-// Returns the buffer (buff[])
-template <typename T>
-T* sliceArray(const T inp[], T buff[], int start, int end)
-{
-    int len = end - start;
-
-    for (int i = 0; i < len; i++)
-    {
-        buff[i] = inp[start + i];
-    }
-
-    return buff;
-}
-
 // Converts the fist 4 chars from the given arr. to an float.
 // Returns the float.
 float charsToFloat(const char* inp)
@@ -46,26 +31,32 @@ float charsToFloat(const char* inp)
 
 // Parses the Textures from the inp.
 // Then creates the parsed textures
-void parseTextures(std::string inp, const int start)
+void parseTextures(std::string &inp, const int start)
 {
     int offset = start;
 
     char id = inp[offset];
     offset++;
 
-    float x = charsToFloat(inp.substr(offset, offset + 4).c_str());
-    float y = charsToFloat(inp.substr(offset + 4, offset + 4 * 2).c_str());
-    float scaleX = charsToFloat(inp.substr(offset + 4, offset + 4 * 2).c_str());
-    float scaleY = charsToFloat(inp.substr(offset + 4, offset + 4 * 2).c_str());
+    float x = charsToFloat(inp.substr(offset, 4).c_str());
+    float y = charsToFloat(inp.substr(offset + 4, 4).c_str());
+    float scaleX = charsToFloat(inp.substr(offset + 4 * 2, 4).c_str());
+    float scaleY = charsToFloat(inp.substr(offset + 4 * 3, 4).c_str());
     offset += 4 * 4;
 
     char pathLen = inp[offset];
-    std::string path = inp.substr(offset + 1, offset + 1 + pathLen);
+    std::string path = inp.substr(offset + 1, pathLen);
+    offset += 1 + pathLen;
 
-    std::cout << path << std::endl;
+    static renderer::VertexObject obj(x, y, scaleX, scaleY, path);
+    renderer::Renderer::map.insert({id, &obj});
 
-    // renderer::VertexObject obj(x, y, scaleX, scaleY, path);
-    // renderer::Renderer::map.insert({id, &obj});
+    std::cout << "Texture loaded: " << (int) id << ", " << path << std::endl;
+
+    if (inp[offset] == 0x0b)
+        return;
+
+    parseTextures(inp, offset);
 }
 
 int main() 
