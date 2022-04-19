@@ -11,10 +11,10 @@
 #include "chrono"
 #include "thread"
 
-#include "Renderer.h"
-#include "Shader.h"
-#include "VertexObject.h"
-#include "Encoder.h"
+#include "renderer/Renderer.h"
+#include "renderer/Shader.h"
+#include "renderer/VertexObject.h"
+#include "renderer/Encoder.h"
 
 // TODO remove when not longern needed
 #define hex(x) " " << std::hex << (unsigned int) (unsigned char) x
