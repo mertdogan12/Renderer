@@ -32,7 +32,7 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 namespace renderer {
-    std::unordered_map<char, renderer::VertexObject*> Renderer::map;
+    std::unordered_map<char, VertexObject*> Renderer::map;
     Shader *Renderer::shader = nullptr;
     unsigned int Renderer::vertexArray;
     unsigned int Renderer::indicies;

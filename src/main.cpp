@@ -48,8 +48,7 @@ void parseTextures(std::string &inp, const int start)
     std::string path = inp.substr(offset + 1, pathLen);
     offset += 1 + pathLen;
 
-    static renderer::VertexObject obj(x, y, scaleX, scaleY, path);
-    renderer::Renderer::map.insert({id, &obj});
+    renderer::Renderer::map.insert({id, new renderer::VertexObject(x, y, scaleX, scaleY, path)});
 
     std::cout << "Texture loaded: " << (int) id << ", " << path << std::endl;
 
@@ -130,9 +129,9 @@ int main()
             renderer::Renderer::parseObjects(vertecies, indicies);
 
             /* ChangeCoords */
-            renderer::Renderer::map[0x00]->ChangeCoords(x);
-            // renderer::Renderer::map[0x01]->ChangeCoords(renderer::VertexObject::DEFAULT, renderer::VertexObject::DEFAULT, 
-            //         scale, scale);
+            renderer::Renderer::map[0]->ChangeCoords(x);
+            renderer::Renderer::map[1]->ChangeCoords(renderer::VertexObject::DEFAULT, renderer::VertexObject::DEFAULT,
+                    scale, scale);
 
             x += 1.0f;
             scale += 0.001f;
