@@ -10,4 +10,12 @@ namespace data {
 
         return out;
     }
+
+    int charsToInt(const char* inp)
+    {
+        int out;
+        std::memcpy(&out, inp, 4);
+
+        return out;
+    }
 }

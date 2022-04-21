@@ -57,7 +57,9 @@ int main()
     // Parse Data
     try
     {
-        for (std::string line; std::getline(std::cin, line);)
+        std::ifstream sample("sample");
+
+        for (std::string line; std::getline(sample, line);)
         {
             data::Parser((const std::string) line);
         }
@@ -66,6 +68,8 @@ int main()
         std::cout << e.what() << std::endl;
         return -1;
     }
+
+    return -1; 
 
     // Encoder
     renderer::Encoder encoder("out.mp4", width, height);
