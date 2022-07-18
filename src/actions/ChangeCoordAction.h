@@ -5,6 +5,7 @@
 namespace actions {
     class ChangeCoordsAction: public Action 
     {
-        ChangeCoordsAction(const char& textureId);
+        public:
+            void run();
     };
 }
