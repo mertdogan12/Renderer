@@ -9,7 +9,7 @@ namespace data {
     Parser::Parser(const std::string &inp)
     {
         int txtSize = parseTextures(inp, 0);
-        parseActions(inp, txtSize);
+        parseActions(inp, txtSize + 1);
     }
 
     int Parser::parseTextures(const std::string &inp, const int &start)
@@ -41,18 +41,44 @@ namespace data {
 
     void Parser::parseActions(const std::string &inp, const int &start)
     {
-        int offset = start + 1;
+        int offset = start;
         char textureId = inp[offset];
         char actionId = inp[offset + 1];
+        offset += 2;
+
 
         // Check if texture exists
         if ( renderer::Renderer::map.find(textureId) == renderer::Renderer::map.end())
-            throw  std::runtime_error(std::string("Texture does not exists: ").append(&textureId));
-        offset += 2;
+            throw  std::runtime_error(std::string("Texture does not exists: ")
+                    .append(std::to_string(int(textureId))));
 
         int _start = charsToInt(inp.substr(offset, 4).c_str());
         int _end = charsToInt(inp.substr(offset + 4, 4).c_str());
+        offset += 4 * 2;
 
-        std::cout << _end << std::endl;
+
+        switch(int(actionId))
+        {
+            case 0:
+                offset += 16;
+                break;
+
+            case 1:
+                offset += 8;
+                break;
+
+            default:
+                throw std::runtime_error(std::string("Action does not exists: ")
+                        .append(std::to_string(int(actionId))));
+        }
+
+        std::cout << "--- Action parsed ---" << std::endl;
+        std::cout << "Action id: " << int(actionId) << std::endl;
+        std::cout << "Texture id: " << std::hex << int(textureId) << std::endl;
+
+        if (inp[offset] == 0x0b)
+            return;
+
+        parseActions(inp, offset);
     }
 }

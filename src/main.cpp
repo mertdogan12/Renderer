@@ -25,7 +25,7 @@ int main()
 
     // Initialize the library
     if (!glfwInit())
-    return -1;
+        return -1;
 
     // Create a windowed mode window and its OpenGL context
     window = glfwCreateWindow(width, height, "Renderer", NULL, NULL);
@@ -57,9 +57,7 @@ int main()
     // Parse Data
     try
     {
-        std::ifstream sample("sample");
-
-        for (std::string line; std::getline(sample, line);)
+        for (std::string line; std::getline(std::cin, line);)
         {
             data::Parser((const std::string) line);
         }
@@ -68,8 +66,6 @@ int main()
         std::cout << e.what() << std::endl;
         return -1;
     }
-
-    return -1; 
 
     // Encoder
     renderer::Encoder encoder("out.mp4", width, height);
