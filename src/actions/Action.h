@@ -11,7 +11,7 @@ namespace actions {
     class Action
     {
         public:
-            Action(const char& txtId, const int& start, const int& end);
+            Action();
             const char textureId;
             Time time;
             virtual void run();
