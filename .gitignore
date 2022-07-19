@@ -1,14 +1,13 @@
 # Prerequisites
 *.d
 .ccls-cache
+vgcore.*
 
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
-*.avi
-*.mp4
 
 # Precompiled Headers
 *.gch
@@ -33,3 +32,10 @@
 *.exe
 *.out
 *.app
+
+# Video files
+*.avi
+*.mp4
+
+# Other
+sample

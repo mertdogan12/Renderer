@@ -23,10 +23,10 @@ glew:
 
 build:
 	@echo "Building"
-	g++ -g src/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL
+	g++ -g src/main.cpp src/*/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Isrc -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL
 
 log:
 	@echo "Building with logging"
 	rm -f log.txt
 	touch log.txt
-	g++ -g src/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL &> log.txt
+	g++ -g src/**/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -Ilib -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL &> log.txt

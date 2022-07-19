@@ -12,12 +12,11 @@ namespace renderer {
     // vec4 Color
     // vec2 Texture Coordinates
     // float Texture Index
-    VertexObject::VertexObject(const std::string name, const float coords[2], 
+    VertexObject::VertexObject(const float x, const float y,
             const float scaleX, const float scaleY, const std::string& texturePath)
-        : Name(name), 
-          VertexTexture(texturePath), 
-          posX(coords[0]), 
-          posY(coords[1]), 
+        : VertexTexture(texturePath), 
+          posX(x), 
+          posY(y), 
           posScaleX(scaleX),
           posScaleY(scaleY)
     {
@@ -26,7 +25,7 @@ namespace renderer {
 
         Vertex v0 = 
         {
-            glm::vec2(coords[0], coords[1]),
+            glm::vec2(x, y),
             glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
             glm::vec2(0.0f, 0.0f),
             0.0f
@@ -34,7 +33,7 @@ namespace renderer {
 
         Vertex v1 = 
         {
-            glm::vec2(coords[0] + width, coords[1]),
+            glm::vec2(x + width, y),
             glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
             glm::vec2(1.0f, 0.0f),
             0.0f
@@ -42,7 +41,7 @@ namespace renderer {
 
         Vertex v2 = 
         {
-            glm::vec2(coords[0] + width, coords[1] + height),
+            glm::vec2(x + width, y + height),
             glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
             glm::vec2(1.0f, 1.0f),
             0.0f
@@ -50,7 +49,7 @@ namespace renderer {
 
         Vertex v3 = 
         {
-            glm::vec2(coords[0], coords[1] + height),
+            glm::vec2(x, y + height),
             glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
             glm::vec2(0.0f, 1.0f),
             0.0f
