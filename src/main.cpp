@@ -68,7 +68,7 @@ int main()
     }
 
     // Encoder
-    renderer::Encoder encoder("out.mp4", width, height);
+    // renderer::Encoder encoder("out.mp4", width, height);
 
     {
         bool print = true;
@@ -110,13 +110,13 @@ int main()
             glfwPollEvents();
 
             /* Pixels to video */
-            int pixelsSize = width * height * 3; 
-            GLbyte *pixels = new GLbyte[pixelsSize];
-            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
+            // int pixelsSize = width * height * 3; 
+            // GLbyte *pixels = new GLbyte[pixelsSize];
+            // GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
 
-            encoder.Write(pixels, pixelsSize);
+            // encoder.Write(pixels, pixelsSize);
 
-            free(pixels);
+            // free(pixels);
         }
     }
 
