@@ -1,9 +1,11 @@
 #pragma once
 
+#include "array"
+
 namespace actions {
     // Time in frames
     struct Time {
-        int start;
+        int currentPos;
         int end;
         float speed;
     };
@@ -11,9 +13,12 @@ namespace actions {
     class Action
     {
         public:
-            Action();
+            Action(Time time);
             const char textureId;
-            Time time;
             virtual void run();
+            virtual void init(char* args);
+
+        private:
+            Time time;
     };
 }
