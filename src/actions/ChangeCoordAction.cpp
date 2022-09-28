@@ -1,4 +1,4 @@
-#include "ChangeCoordAction.h"
+#include "actions/ChangeCoordAction.h"
 
 namespace actions {
     void ChangeCoordsAction::init(char *args)

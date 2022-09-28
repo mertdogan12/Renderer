@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Action.h"
+#include "actions/Action.h"
 
 namespace actions {
     class ChangeCoordsAction: public Action

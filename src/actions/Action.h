@@ -13,7 +13,7 @@ namespace actions {
     class Action
     {
         public:
-            Action(Time time);
+            Action(Time time, char textureId);
             const char textureId;
             virtual void run();
             virtual void init(char* args);
