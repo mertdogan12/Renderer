@@ -67,7 +67,7 @@ namespace data {
                             , textureId));
 
                 // TODO Get byte array slice with the args
-                action->init(nullptr);
+                action->init(inp.substr(offset, offset + 15).c_str());
 
                 offset += 16;
                 break;

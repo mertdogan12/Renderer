@@ -7,7 +7,7 @@ namespace actions {
     {
         public:
             ChangeCoordsAction(Time time, char textureId);
-            void init(char *args) override;
+            void init(const char *args) override;
             void run() override;
     };
 }
