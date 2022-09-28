@@ -15,8 +15,8 @@ namespace actions {
         public:
             Action(Time time, char textureId);
             const char textureId;
-            virtual void run();
-            virtual void init(char* args);
+            virtual void run() = 0;
+            virtual void init(char* args) = 0;
 
         private:
             Time time;

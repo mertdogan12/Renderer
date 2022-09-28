@@ -3,7 +3,9 @@
 #include "iostream"
 
 #include "renderer/Renderer.h"
-#include "Helper.h"
+#include "data/Helper.h"
+#include "actions/Action.h"
+#include "actions/ChangeCoordAction.h"
 
 namespace data {
     Parser::Parser(const std::string &inp)
@@ -47,7 +49,6 @@ namespace data {
         char actionId = inp[offset + 1];
         offset += 2;
 
-
         // Check if texture exists
         if ( renderer::Renderer::map.find(textureId) == renderer::Renderer::map.end())
             throw  std::runtime_error(std::string("Texture does not exists: ")
@@ -57,10 +58,17 @@ namespace data {
         int _end = charsToInt(inp.substr(offset + 4, 4).c_str());
         offset += 4 * 2;
 
+        std::unique_ptr<actions::Action> action;
 
         switch(int(actionId))
         {
             case 0:
+                action.reset(new actions::ChangeCoordsAction(actions::Time{_start, _end, 0}
+                            , textureId));
+
+                // TODO Get byte array slice with the args
+                action->init(nullptr);
+
                 offset += 16;
                 break;
 
