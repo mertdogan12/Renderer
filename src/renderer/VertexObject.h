@@ -19,10 +19,9 @@ namespace renderer {
     class VertexObject
     {
         public:
-            VertexObject(const std::string name, const float coords[2], 
+            VertexObject(const float x, const float y, 
                     const float scaleX, const float scaleY, const std::string& texturePath);
 
-            std::string Name;
             Vertex Vertexs[4];
 
             static const float DEFAULT;

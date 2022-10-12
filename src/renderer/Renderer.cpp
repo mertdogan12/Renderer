@@ -4,12 +4,14 @@
 
 #include "iostream"
 #include "unordered_map"
+#include "list"
 #include "cstring"
 #include "memory"
 #include "exception"
 
-#include "Renderer.h"
-#include "Shader.h"
+#include "renderer/Renderer.h"
+#include "renderer/Shader.h"
+#include "actions/Action.h"
 
 // Just removes all GL errors
 void GLClearError()
@@ -32,7 +34,8 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 namespace renderer {
-    std::unordered_map<std::string, renderer::VertexObject*> Renderer::map;
+    std::unordered_map<char, VertexObject*> Renderer::map;
+    std::list<std::unique_ptr<actions::Action>> Renderer::actions;
     Shader *Renderer::shader = nullptr;
     unsigned int Renderer::vertexArray;
     unsigned int Renderer::indicies;
@@ -117,7 +120,7 @@ namespace renderer {
     {
         int textures[32];
         unsigned int index = 0;
-        for (std::pair<std::string, VertexObject*> obj: map)
+        for (std::pair<char, VertexObject*> obj: map)
         {
             VertexObject* object = obj.second;
 
