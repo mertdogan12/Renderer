@@ -31,9 +31,10 @@ namespace renderer {
             void ChangeCoords(float x = -1.0f, float y = -1.0f, 
                     const float scaleX = -1.0f, const float scaleY = -1.0f);
 
-        private:
-            void setTextureIndex(float index);
             float posX, posY;
             float posScaleX, posScaleY;
+
+        private:
+            void setTextureIndex(float index);
     };
 }
