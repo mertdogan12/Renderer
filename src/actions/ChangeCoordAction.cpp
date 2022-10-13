@@ -30,10 +30,12 @@ namespace actions {
         // Calcuates the speed
         speed.x = (endPos.x - startPos.x) / (time.end - time.currentPos);
         speed.y = (endPos.y - startPos.y) / (time.end - time.currentPos);
+        speed.scaleX = (endPos.scaleX - startPos.scaleX) / (time.end - time.currentPos);
+        speed.scaleY = (endPos.scaleY - startPos.scaleY) / (time.end - time.currentPos);
     }
 
     void ChangeCoordsAction::run() 
     {
-
+        
     }
 }
