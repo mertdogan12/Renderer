@@ -7,7 +7,6 @@ namespace actions {
     struct Time {
         int currentPos;
         int end;
-        float speed;
     };
 
     class Action
@@ -18,7 +17,6 @@ namespace actions {
             virtual void run() = 0;
             virtual void init(const char* args) = 0;
 
-        private:
             Time time;
     };
 }

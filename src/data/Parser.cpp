@@ -63,7 +63,7 @@ namespace data {
         switch(int(actionId))
         {
             case 0:
-                action.reset(new actions::ChangeCoordsAction(actions::Time{_start, _end, 0}
+                action.reset(new actions::ChangeCoordsAction(actions::Time{_start, _end}
                             , textureId));
 
                 // TODO Get byte array slice with the args
