@@ -11,6 +11,11 @@ namespace data {
         return out;
     }
 
+    float charsToFloat(const char* inp, int offset)
+    {
+        return charsToFloat(&inp[offset]);
+    }
+
     int charsToInt(const char* inp)
     {
         int out;
