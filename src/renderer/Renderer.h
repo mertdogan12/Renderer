@@ -5,9 +5,8 @@
 #include "memory"
 #include "list"
 
-#include "renderer/VertexObject.h"
+#include "VertexObject.h"
 #include "renderer/Shader.h"
-#include "actions/Action.h"
 
 #define ASSERT(x) if (!(x)) __builtin_trap();
 
@@ -36,7 +35,6 @@ namespace renderer {
     {
         public:
             static std::unordered_map<char, VertexObject*> map;
-            static std::list<std::unique_ptr<actions::Action>> actions;
             static Shader *shader;
             static unsigned int vertexArray; 
             static unsigned int indicies;

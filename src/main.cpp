@@ -5,8 +5,8 @@
 #include "iostream"
 #include "fstream"
 #include "unordered_map"
-#include "cstring"
-#include "string"
+#include "cstring" 
+#include "string" 
 #include "chrono"
 #include "thread"
 
@@ -15,10 +15,8 @@
 #include "renderer/VertexObject.h"
 #include "renderer/Encoder.h"
 
-#include "data/Parser.h"
-
 int main() 
-{
+{ 
     /* GLFW */
     GLFWwindow *window;
     const unsigned int width = 1920, height = 1080;
@@ -45,6 +43,7 @@ int main()
 
     glfwSwapInterval(1);
 
+    /* Renderer */
     try 
     {
         renderer::Init();
@@ -53,25 +52,17 @@ int main()
         std::cout << e.what() << std::endl;
         return -1;
     }
-
-    // Parse Data
-    try
-    {
-        for (std::string line; std::getline(std::cin, line);)
-        {
-            data::Parser((const std::string) line);
-        }
-    } catch(std::runtime_error& e)
-    {
-        std::cout << e.what() << std::endl;
-        return -1;
-    }
+    
+    renderer::VertexObject pic1(0, 0, 1, 1, "res/textures/test571x840.jpg");
+    renderer::VertexObject pic2(0, 0, 1, 1, "res/textures/test245x253.png");
+    
+    renderer::Renderer::map.insert({0, &pic1});
+    renderer::Renderer::map.insert({1, &pic2});
 
     // Encoder
     // renderer::Encoder encoder("out.mp4", width, height);
 
     {
-        bool print = true;
         float x = 0.0f, scale = 0.0f;
 
         /* Loop until the user closes the window */
