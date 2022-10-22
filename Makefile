@@ -28,13 +28,15 @@ glew:
 
 build:
 	@echo "Building"
+	mkdir -p bin
 	g++ -g src/main.cpp src/*/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Isrc -Ivendor -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL -o bin/renderer.out
 
 log:
 	@echo "Building with logging"
 	rm -f log.txt
 	touch log.txt
-	g++ -g src/**/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Ivendor -lglfw3 -ldl -lpthread -lGL -o bin/renderer.out &> log.txt
+	mkdir -p bin
+	g++ -g src/main.cpp src/*/*.cpp vendor/stb/*.cpp vendor/imgui/*.cpp -Isrc -Ivendor -lGLEW -lGLU -lglfw3 -ldl -lpthread -lGL -o bin/renderer.out &> log.txt
 
 build-lib:
 	@echo "Building the lib"
