@@ -1,6 +1,5 @@
 # Renderer
 
-## Build infos
 ### Dependencies
 #### Ubuntu
 ```
@@ -11,17 +10,7 @@ sudo apt install xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols extr
 pacman -S python3 glu glew
 ```
 
-### Building
-Build the output file and install glew and glfw
+### Install from source
 ```
-sudo make install
+sudo make install clean
 ```
-
-Only build the output file
-```
-make
-```
-
-### Error fixes
-- error while loading shared libraries: libGLEW.so.2.2: cannot open shared object file: No such file or directory
-  - Look at --> [Stack Overflow](https://stackoverflow.com/questions/26372359/error-loading-shared-library-glew)
