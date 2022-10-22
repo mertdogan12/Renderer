@@ -11,7 +11,6 @@
 
 #include "renderer/Renderer.h"
 #include "renderer/Shader.h"
-#include "actions/Action.h"
 
 // Just removes all GL errors
 void GLClearError()
@@ -35,7 +34,6 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 namespace renderer {
     std::unordered_map<char, VertexObject*> Renderer::map;
-    std::list<std::unique_ptr<actions::Action>> Renderer::actions;
     Shader *Renderer::shader = nullptr;
     unsigned int Renderer::vertexArray;
     unsigned int Renderer::indicies;
