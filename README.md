@@ -1,16 +1,20 @@
 # Renderer
 
 ### Dependencies
-#### Ubuntu
-```
-sudo apt install xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules build-essential libxmu-dev libxi-dev libgl-dev python
-```
 #### Arch Linux
 ```
-pacman -S python3 glu glew
+pacman -S glu glew
 ```
 
 ### Install from source
 ```
 sudo make install clean
+```
+
+### Build
+```
+make
+
+# Then run it with
+bin/renderer.out
 ```

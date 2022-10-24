@@ -1,30 +1,10 @@
 all: build
 
-install-deps: glfw glew
-
 install: build-lib
 	@echo Installing the lib
-	mkdir -p /usr/lib/renderer
-	cp bin/static/librenderer.a /usr/lib/renderer
-
-glfw:
-	@echo "Cloneing glfw"
-	git clone https://github.com/glfw/glfw.git
-	@echo "Compiling glfw"
-	cmake -S glfw -B glfw/build
-	make install -C glfw/build
-	@echo "Removeing glfw repo"
-	rm -rf glfw
-
-glew:
-	@echo "Cloneing glew"
-	git clone https://github.com/nigels-com/glew.git
-	@echo "Compiling glew"
-	make -C glew/auto
-	make -C glew
-	make install -C glew
-	@echo "Removeing glew"
-	rm -rf glew
+	mkdir -p /usr/include/renderer
+	cp bin/static/librenderer.a /usr/lib
+	cp src/renderer/*.h /usr/include/renderer
 
 build:
 	@echo "Building"
