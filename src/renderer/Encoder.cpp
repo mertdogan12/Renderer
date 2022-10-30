@@ -16,6 +16,11 @@ namespace renderer
         }
     }
 
+    Encoder::~Encoder()
+    {
+        pclose(ffmpeg);
+    }
+
     void Encoder::Write(GLbyte* data, int size)
     {
         fwrite(data, size, 1, ffmpeg);

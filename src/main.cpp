@@ -17,9 +17,10 @@
 
 int main() 
 { 
+    const unsigned int width = 1920, height = 1080;
+
     /* GLFW */
     GLFWwindow *window;
-    const unsigned int width = 1920, height = 1080;
 
     // Initialize the library
     if (!glfwInit())
@@ -47,8 +48,9 @@ int main()
     try 
     {
         renderer::Init();
-    } catch (std::exception e)
+    } catch (std::runtime_error e)
     {
+        std::cout << "Error while initing the renderer" << std::endl;
         std::cout << e.what() << std::endl;
         return -1;
     }
@@ -60,13 +62,14 @@ int main()
     renderer::Renderer::map.insert({1, &pic2});
 
     // Encoder
-    // renderer::Encoder encoder("out.mp4", width, height);
+    renderer::Encoder encoder("out.mp4", width, height);
 
     {
         float x = 0.0f, scale = 0.0f;
+        int count = 0;
 
         /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
+        while (true)
         {
             /* Render here */
             renderer::Renderer::clear();
@@ -101,17 +104,27 @@ int main()
             glfwPollEvents();
 
             /* Pixels to video */
-            // int pixelsSize = width * height * 3; 
-            // GLbyte *pixels = new GLbyte[pixelsSize];
-            // GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
+            int pixelsSize = width * height * 3; 
+            GLbyte *pixels = new GLbyte[pixelsSize];
+            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
 
-            // encoder.Write(pixels, pixelsSize);
+            encoder.Write(pixels, pixelsSize);
 
-            // free(pixels);
+            free(pixels);
+
+            /* Count */
+            if (count >= 100)
+            {
+                std::cout << "STOP ------------- STOP" << std::endl;
+                break;
+            }
+
+            count++;
         }
     }
 
-    glfwDestroyWindow(window);
-    glfwTerminate();
+    // glfwDestroyWindow(window);
+    // // glfwTerminate(true);
+
     return 0;
 } 
