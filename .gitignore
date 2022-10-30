@@ -36,6 +36,8 @@ vgcore.*
 # Video files
 *.avi
 *.mp4
+*.raw
 
 # Other
 sample_data
+log.txt
