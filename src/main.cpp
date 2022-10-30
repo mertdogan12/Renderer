@@ -17,7 +17,10 @@
 
 int main() 
 { 
-    const unsigned int width = 1920, height = 1080;
+    std::ofstream rawVideo;  
+    rawVideo.open("out.raw", std::ios::binary | std::ios::out);
+
+    const float width = 1920.0f, height = 1080.0f;
 
     /* GLFW */
     GLFWwindow *window;
@@ -95,7 +98,7 @@ int main()
                 scale = 0.0f;
             }
 
-            renderer::Draw(1920.0f, 1080.0f, sizes, vertecies, indicies);
+            renderer::Draw(width, height, sizes, vertecies, indicies);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
@@ -106,7 +109,9 @@ int main()
             /* Pixels to video */
             int pixelsSize = width * height * 3; 
             GLbyte *pixels = new GLbyte[pixelsSize];
-            GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
+            GLCALL(glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels));
+
+            rawVideo.write((char*) pixels, pixelsSize);
 
             encoder.Write(pixels, pixelsSize);
 
@@ -123,8 +128,10 @@ int main()
         }
     }
 
-    // glfwDestroyWindow(window);
-    // // glfwTerminate(true);
+    rawVideo.close();
+
+    glfwDestroyWindow(window);
+    // glfwTerminate(true);
 
     return 0;
 } 
