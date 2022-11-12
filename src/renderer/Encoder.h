@@ -9,6 +9,7 @@ namespace renderer
     {
         public: 
             Encoder(std::string filePath, const unsigned int width, const unsigned int height);
+            ~Encoder();
             void Write(GLbyte* data, int size);
 
         private:

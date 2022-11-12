@@ -17,9 +17,13 @@
 
 int main() 
 { 
+    std::ofstream rawVideo;  
+    rawVideo.open("out.raw", std::ios::binary | std::ios::out);
+
+    const float width = 1920.0f, height = 1080.0f;
+
     /* GLFW */
     GLFWwindow *window;
-    const unsigned int width = 1920, height = 1080;
 
     // Initialize the library
     if (!glfwInit())
@@ -47,8 +51,9 @@ int main()
     try 
     {
         renderer::Init();
-    } catch (std::exception e)
+    } catch (std::runtime_error e)
     {
+        std::cout << "Error while initing the renderer" << std::endl;
         std::cout << e.what() << std::endl;
         return -1;
     }
@@ -64,9 +69,10 @@ int main()
 
     {
         float x = 0.0f, scale = 0.0f;
+        int count = 0;
 
         /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
+        while (true)
         {
             /* Render here */
             renderer::Renderer::clear();
@@ -92,7 +98,7 @@ int main()
                 scale = 0.0f;
             }
 
-            renderer::Draw(1920.0f, 1080.0f, sizes, vertecies, indicies);
+            renderer::Draw(width, height, sizes, vertecies, indicies);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
@@ -101,17 +107,31 @@ int main()
             glfwPollEvents();
 
             /* Pixels to video */
-            // int pixelsSize = width * height * 3; 
-            // GLbyte *pixels = new GLbyte[pixelsSize];
-            // GLCALL(glReadPixels(0, 0, (float) width, (float) height, GL_RGB, GL_BYTE, pixels));
+            int pixelsSize = width * height * 3; 
+            GLbyte *pixels = new GLbyte[pixelsSize];
+            GLCALL(glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels));
+
+            rawVideo.write((char*) pixels, pixelsSize);
 
             // encoder.Write(pixels, pixelsSize);
 
-            // free(pixels);
+            free(pixels);
+
+            /* Count */
+            if (count >= 60 * 20)
+            {
+                std::cout << "STOP ------------- STOP" << std::endl;
+                break;
+            }
+
+            count++;
         }
     }
 
+    rawVideo.close();
+
     glfwDestroyWindow(window);
-    glfwTerminate();
+    // glfwTerminate(true);
+
     return 0;
 } 
