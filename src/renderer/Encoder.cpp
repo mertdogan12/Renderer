@@ -6,10 +6,34 @@
 namespace renderer
 {
     Encoder::Encoder(const std::string filePath, const unsigned int width, const unsigned int height)
-        : ffmpeg(popen(std::string("ffmpeg -f rawvideo -pix_fmt rgb24 \
-                        -r 60 -s " + std::to_string(width) + "x" + std::to_string(height) +
-                        " -i pipe:0 -vf vflip libx265 " + filePath).c_str(), "w"))
     {
+        std::string size = std::to_string(width) + "x" + std::to_string(height);
+
+        popen
+            (
+                std::string
+                (
+                    "ffmpeg \
+                    -y \
+                    -f rawvideo \
+                    -vcodec rawvideo \
+                    -s " + size + " \
+                    -pix_fmt rgb24 \
+                    -r 60 \
+                    -i pipe:0 \
+                    -an \
+                    -vf vflip \
+                    -c:v libx265 \
+                    -color_range 1 \
+                    -colorspace 1 \
+                    -color_trc 1 \
+                    -color_primaries 1 \
+                    -movflags +write_colr \
+                    out.mp4"
+                 ).c_str(),
+                 "w"
+            );
+
         if (!ffmpeg)
         {
             throw "Ffmpeg command failed";

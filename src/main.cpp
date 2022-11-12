@@ -65,7 +65,7 @@ int main()
     renderer::Renderer::map.insert({1, &pic2});
 
     // Encoder
-    renderer::Encoder encoder("out.mp4", width, height);
+    // renderer::Encoder encoder("out.mp4", width, height);
 
     {
         float x = 0.0f, scale = 0.0f;
@@ -113,12 +113,12 @@ int main()
 
             rawVideo.write((char*) pixels, pixelsSize);
 
-            encoder.Write(pixels, pixelsSize);
+            // encoder.Write(pixels, pixelsSize);
 
             free(pixels);
 
             /* Count */
-            if (count >= 100)
+            if (count >= 60 * 20)
             {
                 std::cout << "STOP ------------- STOP" << std::endl;
                 break;
