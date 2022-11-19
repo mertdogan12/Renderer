@@ -8,6 +8,8 @@ namespace testing {
     Testing::Testing(const std::string& name, const float& width, const float& height) :
         width(width), height(height), name(name)
     {
+        tests.insert({ "coords", std::unique_ptr<Test>(new CoordsTest())});
+
         init();        
         start();
     }

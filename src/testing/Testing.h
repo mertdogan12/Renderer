@@ -1,4 +1,6 @@
 #pragma once
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 #include "string"
 #include "unordered_map"
@@ -19,9 +21,7 @@ namespace testing {
 
     private:
         // name of a test --> test ptr
-        std::unordered_map<std::string, std::unique_ptr<Test>> tests = {
-            { "coords", std::unique_ptr<Test>(new CoordsTest()) }
-        };
+        std::unordered_map<std::string, std::unique_ptr<Test>> tests;
 
         std::unique_ptr<Test> test;
 
